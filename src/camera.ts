@@ -7,7 +7,5 @@ export default class Camera {
     public viewportHeight: number,
   ) {}
 
-  update() {
-    console.log('test');
-  }
+  update() {}
 }
