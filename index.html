@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        background-color: black;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+        background-color: rgb(53, 54, 54);
+      }
+
+      #menu {
+        transition: ease-in-out;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.219);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #play {
+        font-size: 3em;
+        background: none;
+        border-radius: 40px;
+        color: rgb(238, 234, 234);
+        transition: 0.3s ease-in-out;
+        padding: 10px 30px;
+        outline: none;
+      }
+
+      #play:hover {
+        color: #fff;
+        box-shadow: 0 0 5px #ffffff;
+        text-shadow: 0 0 5px #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="menu">
+      <button id="play">PLAY</button>
+    </div>
+    <canvas></canvas>
+  </body>
+</html>
