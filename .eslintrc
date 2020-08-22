@@ -3,8 +3,5 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["prettier"],
-  "rules": {
-    // "eslint linebreak-style": ["error", "windows"]
-  }
+  "plugins": ["prettier"]
 }
