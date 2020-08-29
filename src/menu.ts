@@ -1,14 +1,18 @@
+import Game from './game';
+
 export default class Menu {
   private menuDiv = document.getElementById('menu')!;
 
   private playbtn = document.getElementById('play')!;
 
-  constructor() {
+  constructor(game: Game) {
     this.playbtn.addEventListener('click', () => {
       if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
         document.documentElement.requestFullscreen();
         window.screen.orientation.lock('landscape');
       }
+      this.hide();
+      game.run();
     });
   }
 

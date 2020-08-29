@@ -1,49 +1,88 @@
-const path = require("path");
+const path = require('path');
 
-const TerserPlugin = require("terser-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = (env) => {
-  const isProd = env === "production";
+module.exports = env => {
+  const isProd = env === 'prod';
+
+  process.env.NODE_ENV = isProd ? 'production' : 'development';
 
   const plugins = [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: './index.html',
       minify: {
         removeComments: true,
-        minifyCSS: true,
-        inlinesource: ".(js|ts)$",
-        collapseWhitespace: true,
-        removeTagWhitespace: true,
         removeAttributeQuotes: true,
+        removeScriptTypeAttributes: true,
+        removeTagWhitespace: true,
+        collapseWhitespace: true,
+        minifyCSS: true,
+        inlineSource: '.(js|ts)$',
       },
+      svgoConfig: {
+        removeViewBox: true,
+        removeDimensions: false,
+        convertTransform: true,
+        cleanupNumericValues: {
+          floatPrecision: 1,
+        },
+        convertPathData: {
+          floatPrecision: 1,
+        },
+      },
+    }),
+    new ExtraWatchWebpackPlugin({
+      files: ['levels/*.svg', 'assets/*.svg'],
     }),
   ];
 
+  if (isProd) {
+    plugins.push(
+      new ScriptExtHtmlWebpackPlugin({
+        inline: 'bundle',
+      }),
+    );
+    plugins.push(new ZipPlugin({ filename: 'bundle.zip' }));
+  }
+
   return {
-    mode: isProd ? "production" : "development",
-    devtool: "eval-source-map",
-    entry: "./src/index.ts",
-    plugins,
+    entry: './src/index.ts',
     module: {
       rules: [
         {
-          test: /\.ts$/,
-          use: "ts-loader",
-          include: [path.resolve(__dirname, "src")],
+          test: /\.ts?$/,
+          use: ['ts-loader', 'webpack-conditional-loader'],
           exclude: /node_modules/,
         },
       ],
     },
     resolve: {
-      extensions: [".js", ".ts"],
+      extensions: ['.ts', '.js'],
     },
     output: {
-      filename: "bundle.js",
-      path: path.resolve(__dirname, "./dist"),
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
     },
+    plugins,
+    devtool: isProd ? false : 'source-map',
     optimization: {
-      minimizer: [new TerserPlugin()],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            mangle: {
+              properties: {
+                keep_quoted: true,
+              },
+            },
+          },
+        }),
+      ],
     },
   };
 };
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
