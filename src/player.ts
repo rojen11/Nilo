@@ -1,14 +1,19 @@
 import Vector2 from './vector';
 import Engine from './engine';
+import { Approach } from './uttils';
 
 export default class Player {
-  public width = 10;
+  public width = 8;
 
-  public height = 10;
+  public height = 8;
 
   public color = 'red';
 
-  public speed = 0.2;
+  public speed = 60;
+
+  public velGoal = 0;
+
+  public velocity: Vector2 = new Vector2(0, 0);
 
   constructor(
     private ctx: CanvasRenderingContext2D,
@@ -18,19 +23,26 @@ export default class Player {
 
   // movement
   moveLeft(dt: number): void {
-    this.pos.add(new Vector2(-this.speed * dt, 0));
+    this.pos.add(new Vector2(-this.speed, 0).scale(dt));
   }
 
   moveRight(dt: number): void {
-    this.pos.add(new Vector2(this.speed * dt, 0));
+    this.pos.add(new Vector2(this.speed, 0).scale(dt));
   }
 
   moveUp(dt: number): void {
-    this.pos.add(new Vector2(0, -this.speed * dt));
+    this.pos.add(new Vector2(0, -this.speed).scale(dt));
   }
 
   moveDown(dt: number): void {
-    this.pos.add(new Vector2(0, this.speed * dt));
+    this.pos.add(new Vector2(0, this.speed).scale(dt));
+  }
+
+  // update player
+  update(dt: number): void {
+    this.velocity.x = Approach(this.velGoal, this.velocity.x, dt * 100);
+
+    this.pos.add(new Vector2(this.velocity.x * dt));
   }
 
   draw(): void {

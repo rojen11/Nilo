@@ -1,27 +1,31 @@
 import Game from './game';
 
 export default class Menu {
-  private menuDiv = document.getElementById('menu')!;
+  private menuDiv = document.getElementById('menu');
 
-  private playbtn = document.getElementById('play')!;
+  private playbtn = document.getElementById('play');
 
   constructor(game: Game) {
-    this.playbtn.addEventListener('click', () => {
-      console.log('here');
-      if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
-        document.documentElement.requestFullscreen();
-        window.screen.orientation.lock('landscape');
-      }
-      this.hide();
-      game.run();
-    });
+    if (this.menuDiv !== null && this.playbtn !== null) {
+      this.playbtn.addEventListener('click', () => {
+        console.log('here');
+        if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
+          document.documentElement.requestFullscreen();
+          window.screen.orientation.lock('landscape');
+        }
+        this.hide();
+        game.run();
+      });
+    } else {
+      console.error('menu or play button not found');
+    }
   }
 
-  show() {
-    this.menuDiv.style.visibility = 'visible';
+  show(): void {
+    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
   }
 
-  hide() {
-    this.menuDiv.style.visibility = 'hidden';
+  hide(): void {
+    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'hidden';
   }
 }

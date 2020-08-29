@@ -22,11 +22,11 @@ export default class Engine {
 
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
-    this.controls = new Controls();
   }
 
   begin(): void {
     this.player = new Player(this.context, this, new Vector2(75, 75));
+    this.controls = new Controls(this.player);
     this.camera = new Camera(
       new Vector2(0, 0),
       this.context.canvas.width,
@@ -38,18 +38,8 @@ export default class Engine {
   }
 
   update(dt: number): void {
-    if (this.controls.control.left) {
-      this.player?.moveLeft(dt);
-    }
-    if (this.controls.control.right) {
-      this.player?.moveRight(dt);
-    }
-    if (this.controls.control.up) {
-      this.player?.moveUp(dt);
-    }
-    if (this.controls.control.down) {
-      this.player?.moveDown(dt);
-    }
+    // console.log(this.controls.control);
+    this.player?.update(dt);
     this.camera.update();
   }
 }

@@ -23,7 +23,9 @@ export default class Game {
   loop = (timestamp: number): void => {
     const progress = timestamp - this.lastRender;
     // console.log(1 / (progress / 1000));
-    this.engine.update(progress);
+    const dt = progress / 1000;
+    // console.log(1 / dt);
+    this.engine.update(dt);
     this.render.draw();
 
     this.lastRender = timestamp;
