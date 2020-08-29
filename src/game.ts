@@ -4,20 +4,25 @@ import Render from './render';
 export default class Game {
   private engine: Engine;
 
-  private lastRender: number = 0;
+  private lastRender = 0;
 
   private render: Render;
 
   constructor() {
     const canvas = document.getElementsByTagName('canvas')[0];
-    const context = canvas.getContext('2d')!;
-    this.engine = new Engine(context);
-    this.render = new Render(this.engine, context);
+    const context = canvas.getContext('2d');
+    if (context === null) {
+      console.error('context not found');
+    } else {
+      this.engine = new Engine(context);
+      this.render = new Render(this.engine, context);
+      this.engine.begin();
+    }
   }
 
-  loop = (timestamp: number) => {
+  loop = (timestamp: number): void => {
     const progress = timestamp - this.lastRender;
-    console.log(1 / (progress / 1000));
+    // console.log(1 / (progress / 1000));
     this.engine.update(progress);
     this.render.draw();
 
@@ -25,9 +30,8 @@ export default class Game {
     window.requestAnimationFrame(this.loop);
   };
 
-  run() {
+  run(): void {
     this.lastRender = 0;
-    this.engine.begin();
     window.requestAnimationFrame(this.loop);
   }
 }

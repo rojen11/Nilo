@@ -5,5 +5,3 @@ const game = new Game();
 const menu = new Menu(game);
 
 menu.show();
-
-// console.log("hello")

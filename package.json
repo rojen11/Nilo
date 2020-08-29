@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -w --watch-poll --mode=development",
+    "start": "webpack-dev-server --mode=development --host 0.0.0.0",
     "build": "webpack --env=production"
   },
   "author": "Rojen Maharjan",
@@ -17,7 +17,8 @@
     "zip-webpack-plugin": "^3.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.6.1",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
     "eslint": "^7.7.0",
     "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-config-prettier": "^6.11.0",

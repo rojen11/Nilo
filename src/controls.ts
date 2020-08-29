@@ -11,7 +11,7 @@ export default class Controls {
     window.addEventListener('keyup', this.onkeyup);
   }
 
-  onkeydown = (e: { keyCode: number }) => {
+  onkeydown = (e: { keyCode: number }): void => {
     // Up (up / W / Z)
     if (e.keyCode === 38 || e.keyCode === 90 || e.keyCode === 87) {
       this.control.up = true;
