@@ -1,6 +1,6 @@
 import Vector2 from './vector';
 import Engine from './engine';
-import { Approach } from './uttils';
+import { lerp } from './uttils';
 
 export default class Player {
   public width = 8;
@@ -9,7 +9,7 @@ export default class Player {
 
   public color = 'red';
 
-  public speed = 60;
+  public speed = 70;
 
   public velGoal = 0;
 
@@ -21,26 +21,9 @@ export default class Player {
     public pos: Vector2,
   ) {}
 
-  // movement
-  moveLeft(dt: number): void {
-    this.pos.add(new Vector2(-this.speed, 0).scale(dt));
-  }
-
-  moveRight(dt: number): void {
-    this.pos.add(new Vector2(this.speed, 0).scale(dt));
-  }
-
-  moveUp(dt: number): void {
-    this.pos.add(new Vector2(0, -this.speed).scale(dt));
-  }
-
-  moveDown(dt: number): void {
-    this.pos.add(new Vector2(0, this.speed).scale(dt));
-  }
-
   // update player
   update(dt: number): void {
-    this.velocity.x = Approach(this.velGoal, this.velocity.x, dt * 100);
+    this.velocity.x = lerp(this.velGoal, this.velocity.x, dt * 100);
 
     this.pos.add(new Vector2(this.velocity.x * dt));
   }

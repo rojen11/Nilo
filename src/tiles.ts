@@ -16,7 +16,7 @@ export class Platform extends Tiles {
 
   public draw(): void {
     this.ctx.save();
-    this.ctx.fillStyle = 'white';
+    this.ctx.fillStyle = 'black';
     this.ctx.fillRect(
       this.pos.x - this.engine.camera.pos.x,
       this.pos.y - this.engine.camera.pos.y,

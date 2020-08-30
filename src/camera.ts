@@ -11,8 +11,12 @@ export default class Camera {
 
   update(): void {
     if (this.followed !== null) {
-      this.pos.x = this.followed.pos.x - this.viewportWidth / 2;
-      this.pos.y = this.followed.pos.y - this.viewportHeight / 2;
+      if (this.followed.pos.x > this.viewportWidth / 2) {
+        this.pos.x = this.followed.pos.x - this.viewportWidth / 2;
+      }
+      if (this.followed.pos.y < this.viewportHeight / 2) {
+        this.pos.y = this.followed.pos.y - this.viewportHeight / 2;
+      }
     }
     // console.log(this.pos);
   }
