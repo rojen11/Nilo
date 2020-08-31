@@ -18,14 +18,12 @@ export default class Engine {
 
   public map: Map;
 
-  public speed = 0.2;
-
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
   }
 
   begin(): void {
-    this.player = new Player(this.context, this, new Vector2(75, 75));
+    this.player = new Player(this.context, this, new Vector2(250, 250));
     this.controls = new Controls(this.player);
     this.camera = new Camera(
       new Vector2(0, 0),
@@ -34,7 +32,6 @@ export default class Engine {
       this.player,
     );
     this.map = new Map(Levels.level1, this);
-    this.map.loadlevel();
   }
 
   update(dt: number): void {

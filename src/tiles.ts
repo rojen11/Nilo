@@ -1,28 +1,55 @@
 import Vector2 from './vector';
 import Engine from './engine';
+import Camera from './camera';
 
 export default abstract class Tiles {
-  constructor(public engine: Engine, public pos: Vector2) {}
+  public static tiles: Tiles[] = new Array<Tiles>();
 
-  abstract draw(): void;
+  public static TilesWidth = 32;
+  public static TilesHeight = 32;
+
+  constructor(public id: number) {
+    Tiles.tiles[id] = this;
+  }
+
+  abstract draw(
+    ctx: CanvasRenderingContext2D,
+    camera: Camera,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): void;
+
+  public static getTile(id: number): Tiles {
+    return Tiles.tiles[id] || Tiles.tiles[1];
+  }
 }
-
 export class Platform extends Tiles {
-  public ctx: CanvasRenderingContext2D;
-  constructor(public engine: Engine, public pos: Vector2) {
-    super(engine, pos);
-    this.ctx = engine.context;
+  constructor(public id: number) {
+    super(id);
   }
 
-  public draw(): void {
-    this.ctx.save();
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(
-      this.pos.x - this.engine.camera.pos.x,
-      this.pos.y - this.engine.camera.pos.y,
-      4,
-      4,
+  draw(
+    ctx: CanvasRenderingContext2D,
+    camera: Camera,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): void {
+    ctx.save();
+    ctx.fillStyle = 'black';
+    ctx.fillRect(
+      x * Tiles.TilesWidth - camera.pos.x,
+      y * Tiles.TilesHeight - camera.pos.y,
+      w,
+      h,
     );
-    this.ctx.restore();
+    ctx.restore();
   }
 }
+
+(function () {
+  new Platform(1);
+})();

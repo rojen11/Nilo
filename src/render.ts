@@ -8,7 +8,7 @@ export default class Render {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.save();
     this.engine.player?.draw();
-    this.engine.map.tiles.forEach(t => t.draw());
+    this.engine.map.draw();
     this.ctx.restore();
   }
 }

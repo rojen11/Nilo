@@ -8,7 +8,6 @@ export default class Menu {
   constructor(game: Game) {
     if (this.menuDiv !== null && this.playbtn !== null) {
       this.playbtn.addEventListener('click', () => {
-        console.log('here');
         if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
           document.documentElement.requestFullscreen();
           window.screen.orientation.lock('landscape');
