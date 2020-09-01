@@ -42,16 +42,11 @@ export default class Player {
             this.pos.y + this.height,
           ),
         );
-      // console.log(this.velocity.x < 0 ? 'left' : 'right');
-      // console.log('x: ' + colx);
     }
 
     if (colx) this.velocity.x = 0;
 
-    this.velocity = new Vector2(
-      this.velocity.x + this.gravity.x,
-      this.velocity.y + this.gravity.y,
-    );
+    this.velocity.add(this.gravity);
 
     // collision in y axis
     let coly = false;
@@ -104,10 +99,10 @@ export default class Player {
           ];
     if (tile === 1) {
       if (
-        this.pos.x < tilepos.x + Tiles.TilesWidth &&
-        this.pos.x + this.width > tilepos.x &&
-        this.pos.y < tilepos.y + Tiles.TilesHeight &&
-        this.pos.y + this.height > tilepos.y
+        pos.x < tilepos.x + Tiles.TilesWidth &&
+        pos.x + this.width > tilepos.x &&
+        pos.y < tilepos.y + Tiles.TilesHeight &&
+        pos.y + this.height > tilepos.y
       ) {
         return true;
       }
