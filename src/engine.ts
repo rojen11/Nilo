@@ -30,6 +30,7 @@ export default class Engine {
       this.context.canvas.width,
       this.context.canvas.height,
       this.player,
+      this,
     );
     this.map = new Map(Levels.level1, this);
   }

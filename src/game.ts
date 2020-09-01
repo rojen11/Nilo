@@ -20,11 +20,12 @@ export default class Game {
     }
   }
 
+  // Game Loop
   loop = (timestamp: number): void => {
     const progress = timestamp - this.lastRender;
-    // console.log(1 / (progress / 1000));
-    const dt = progress / 1000;
-    // console.log(1 / dt);
+    let dt = progress / 1000;
+    if (dt > 0.15) dt = 0.15;
+
     this.engine.update(dt);
     this.render.draw();
 
