@@ -1,5 +1,3 @@
-import Vector2 from './vector';
-import Engine from './engine';
 import Camera from './camera';
 
 export default abstract class Tiles {
@@ -43,8 +41,8 @@ export class Platform extends Tiles {
     ctx.fillRect(
       x * Tiles.TilesWidth - camera.pos.x,
       y * Tiles.TilesHeight - camera.pos.y,
-      w,
-      h,
+      w + 5,
+      h + 5,
     );
     ctx.restore();
   }

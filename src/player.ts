@@ -1,6 +1,6 @@
 import Vector2 from './vector';
 import Engine from './engine';
-import { lerp } from './uttils';
+import { lerp } from './utils';
 import Tiles from './tiles';
 
 export default class Player {
@@ -16,7 +16,12 @@ export default class Player {
 
   public velocity: Vector2 = new Vector2(0, 0);
 
-  public gravity: Vector2 = new Vector2(0, 2);
+  public gravity: Vector2 = new Vector2(0, 5);
+
+  public state = {
+    falling: false,
+    jumping: false,
+  };
 
   constructor(
     private ctx: CanvasRenderingContext2D,
@@ -46,7 +51,12 @@ export default class Player {
 
     if (colx) this.velocity.x = 0;
 
-    this.velocity.add(this.gravity);
+    if (this.engine.controls.control.up && !this.state.jumping) {
+      this.velocity.y = -300;
+      this.state.jumping = true;
+    }
+
+    this.velocity.y += this.gravity.y;
 
     // collision in y axis
     let coly = false;
@@ -64,7 +74,10 @@ export default class Player {
         );
     }
 
-    if (coly) this.velocity.y = 0;
+    if (coly) {
+      this.velocity.y = 0;
+      this.state.jumping = false;
+    }
 
     this.pos.add(new Vector2(this.velocity.x * dt, this.velocity.y * dt));
   }
@@ -88,13 +101,13 @@ export default class Player {
       Math.floor(pos.y / Tiles.TilesHeight) * Tiles.TilesHeight,
     );
     const tile =
-      typeof this.engine.map.level[tilepos.y / Tiles.TilesWidth] ===
+      typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth] ===
         'undefined' ||
-      typeof this.engine.map.level[tilepos.y / Tiles.TilesWidth][
+      typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
         tilepos.x / Tiles.TilesHeight
       ] === 'undefined'
         ? 0
-        : this.engine.map.level[tilepos.y / Tiles.TilesWidth][
+        : this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
             tilepos.x / Tiles.TilesHeight
           ];
     if (tile === 1) {

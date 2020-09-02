@@ -1,5 +1,8 @@
 export const Levels = {
-  level1: [
+  level1: {
+    width: 100,
+    height: 37,
+    map: [
     [
       1,
       1,
@@ -3774,5 +3777,5 @@ export const Levels = {
       1,
       1,
     ],
-  ],
+  ],}
 };

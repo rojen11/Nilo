@@ -35,8 +35,8 @@ export default class Engine {
     this.map = new Map(Levels.level1, this);
   }
 
+  // game tick
   update(dt: number): void {
-    // console.log(this.controls.control);
     this.player?.update(dt);
     this.camera.update();
   }
