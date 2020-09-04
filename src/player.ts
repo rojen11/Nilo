@@ -87,7 +87,6 @@ export default class Player {
         this.state.maxHeightReached = true;
       }
     }
-    // console.log(tg);
 
     this.velocity.y += (this.gravity.y + tg) * dt;
 

@@ -1,6 +1,9 @@
 <html>
   <head>
     <style>
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
         background-color: black;
@@ -11,6 +14,30 @@
         width: 100%;
         height: 100%;
         background-color: rgb(53, 54, 54);
+      }
+
+      #main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+      }
+
+      #top-bar {
+        flex: 0 1 30px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #292a2a;
+      }
+
+      #top-bar > * {
+        margin: 0 3px;
+      }
+
+      #screen {
+        flex: 1 1 auto;
+        position: relative;
       }
 
       #menu {
@@ -48,13 +75,45 @@
         top: 0.2em;
         left: 0.5em;
       }
+
+      /* top bar */
+      .btn {
+        color: #fff;
+        font-weight: 600;
+        outline: none;
+        background: none;
+        font-size: 21px;
+        border: none;
+      }
+
+      #urlbar {
+        background-color: rgb(53, 54, 54);
+        display: inline-block;
+        flex: 1 1 auto;
+        color: #fff;
+        border-radius: 50px;
+        padding: 2px 21px;
+      }
     </style>
   </head>
   <body>
-    <div id="fps">0</div>
-    <div id="menu">
-      <button id="play">PLAY</button>
+    <div id="main">
+      <div id="top-bar">
+        <button class="btn">⮘</button>
+        <button class="btn">⮚</button>
+        <button class="btn">⭮</button>
+        <p id="urlbar">https://js13kgames.com/404.html</p>
+        <span></span>
+        <div><span></span><span></span></div>
+      </div>
+      <div id="screen">
+        <div id="fps">0</div>
+        <div id="menu">
+          <button id="play">PLAY</button>
+        </div>
+        <div id="level"></div>
+        <canvas width="1024" height="576"></canvas>
+      </div>
     </div>
-    <canvas width="1024" height="576"></canvas>
   </body>
 </html>

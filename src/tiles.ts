@@ -24,7 +24,7 @@ export default abstract class Tiles {
   }
 }
 export class Platform extends Tiles {
-  constructor(public id: number) {
+  constructor(id: number) {
     super(id);
   }
 
@@ -48,6 +48,38 @@ export class Platform extends Tiles {
   }
 }
 
+export class Spike extends Tiles {
+  constructor(id: number) {
+    super(id);
+  }
+
+  draw(
+    ctx: CanvasRenderingContext2D,
+    camera: Camera,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): void {
+    const tx = x * Tiles.TilesWidth - camera.pos.x;
+    const ty = y * Tiles.TilesHeight - camera.pos.y;
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(tx, ty + h);
+    ctx.lineTo(tx + w / 4, ty);
+    ctx.lineTo(tx + (w / 4) * 3, ty + h);
+    ctx.lineTo(tx + w / 4, ty + h);
+    ctx.lineTo(tx + (w / 4) * 3, ty);
+    ctx.lineTo(tx + w, ty + h);
+    ctx.lineTo(tx, ty + h);
+    ctx.closePath();
+    ctx.fillStyle = 'black';
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
 (function () {
   new Platform(1);
+  new Spike(2);
 })();
