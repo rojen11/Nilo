@@ -16,11 +16,15 @@ export default class Player {
 
   public velocity: Vector2 = new Vector2(0, 0);
 
-  public gravity: Vector2 = new Vector2(0, 5);
+  public gravity: Vector2 = new Vector2(0, 1000);
+
+  public jumpHeight = 4;
 
   public state = {
     falling: false,
     jumping: false,
+    jumpStartHeight: 0,
+    maxHeightReached: false,
   };
 
   constructor(
@@ -31,7 +35,30 @@ export default class Player {
 
   // update player
   update(dt: number): void {
-    this.velocity.x = lerp(this.velGoal, this.velocity.x, dt * 550);
+    // console.log(dt);
+    this.velGoal = 0;
+
+    let mdt = 550;
+
+    let tg = 0;
+
+    // Controls
+    if (this.engine.controls.control.left) {
+      if (this.velocity.x > 0) mdt = 1000;
+      this.velGoal = -this.speed;
+    }
+    if (this.engine.controls.control.right) {
+      if (this.velocity.x < 0) mdt = 1000;
+      this.velGoal = this.speed;
+    }
+    if (this.engine.controls.control.up && !this.state.jumping) {
+      this.velocity.y = -600;
+      this.state.jumping = true;
+      this.state.jumpStartHeight = this.pos.y;
+      this.state.maxHeightReached = false;
+    }
+
+    this.velocity.x = lerp(this.velGoal, this.velocity.x, dt * mdt);
 
     // collision in x axis
     let colx = false;
@@ -51,12 +78,18 @@ export default class Player {
 
     if (colx) this.velocity.x = 0;
 
-    if (this.engine.controls.control.up && !this.state.jumping) {
-      this.velocity.y = -300;
-      this.state.jumping = true;
+    if (this.state.jumping) {
+      if (
+        this.pos.y <
+        this.state.jumpStartHeight - this.height * this.jumpHeight
+      ) {
+        tg = 1000;
+        this.state.maxHeightReached = true;
+      }
     }
+    // console.log(tg);
 
-    this.velocity.y += this.gravity.y;
+    this.velocity.y += (this.gravity.y + tg) * dt;
 
     // collision in y axis
     let coly = false;

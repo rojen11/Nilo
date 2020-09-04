@@ -4,6 +4,7 @@
       body {
         margin: 0;
         background-color: black;
+        position: relative;
       }
 
       canvas {
@@ -38,9 +39,19 @@
         box-shadow: 0 0 5px #ffffff;
         text-shadow: 0 0 5px #ffffff;
       }
+
+      #fps {
+        color: white;
+        position: absolute;
+        font-size: 2em;
+        font-weight: 600;
+        top: 0.2em;
+        left: 0.5em;
+      }
     </style>
   </head>
   <body>
+    <div id="fps">0</div>
     <div id="menu">
       <button id="play">PLAY</button>
     </div>

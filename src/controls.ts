@@ -22,13 +22,11 @@ export default class Controls {
     // Right (right / D)
     if (e.keyCode === 39 || e.keyCode === 68) {
       this.control.right = true;
-      this.player.velGoal = this.player.speed;
     }
 
     // Left (left / A / Q)
     if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
       this.control.left = true;
-      this.player.velGoal = -this.player.speed;
     }
   };
 
@@ -41,13 +39,11 @@ export default class Controls {
     // Right (right / D)
     if (e.keyCode === 39 || e.keyCode === 68) {
       this.control.right = false;
-      this.player.velGoal = 0;
     }
 
     // Left (left / A / Q)
     if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
       this.control.left = false;
-      this.player.velGoal = 0;
     }
   };
 }
