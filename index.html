@@ -13,7 +13,7 @@
       canvas {
         width: 100%;
         height: 100%;
-        background-color: rgb(53, 54, 54);
+        background: #5f40ab;
       }
 
       #main {
@@ -23,29 +23,17 @@
         flex-flow: column;
       }
 
-      #top-bar {
-        flex: 0 1 30px;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        background-color: #292a2a;
-      }
-
-      #top-bar > * {
-        margin: 0 3px;
-      }
-
       #screen {
         flex: 1 1 auto;
         position: relative;
       }
 
+      /* menu and buttons */
       #menu {
         transition: ease-in-out;
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.219);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -67,6 +55,15 @@
         text-shadow: 0 0 5px #ffffff;
       }
 
+      #chapters {
+        display: none;
+      }
+
+      #level {
+        display: none;
+      }
+      /* End of menu and buttons */
+
       #fps {
         color: white;
         position: absolute;
@@ -77,6 +74,18 @@
       }
 
       /* top bar */
+      #top-bar {
+        flex: 0 1 40px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #000000;
+      }
+
+      #top-bar > * {
+        margin: 0 3px;
+      }
+
       .btn {
         color: #fff;
         font-weight: 600;
@@ -84,24 +93,113 @@
         background: none;
         font-size: 21px;
         border: none;
+        width: 36px;
+        height: 36px;
+      }
+
+      #reload:hover {
+        background-color: #121212;
+        border-radius: 50px;
       }
 
       #urlbar {
-        background-color: rgb(53, 54, 54);
+        background-color: #121212;
         display: inline-block;
         flex: 1 1 auto;
         color: #fff;
         border-radius: 50px;
         padding: 2px 21px;
+        font-family: cursive;
+      }
+
+      /* Mobile Controls */
+      #controls {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 30px;
+        visibility: hidden;
+      }
+
+      #left {
+        display: flex;
+        flex: 1;
+        flex-flow: column;
+      }
+
+      #left > * {
+        margin: 10px;
+      }
+
+      #right {
+        flex: 1;
+        flex-direction: row;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      #right > * {
+        margin: 10px;
+      }
+
+      .arrow {
+        background: none;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        outline: 0;
+        z-index: 2;
       }
     </style>
   </head>
   <body>
     <div id="main">
       <div id="top-bar">
-        <button class="btn">⮘</button>
-        <button class="btn">⮚</button>
-        <button class="btn">⭮</button>
+        <button class="btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+              fill="white"
+            />
+          </svg>
+        </button>
+        <button class="btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              fill="white"
+            />
+          </svg>
+        </button>
+        <button class="btn" id="reload">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+              fill="white"
+              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+            />
+          </svg>
+        </button>
         <p id="urlbar">https://js13kgames.com/404.html</p>
         <span></span>
         <div><span></span><span></span></div>
@@ -111,7 +209,81 @@
         <div id="menu">
           <button id="play">PLAY</button>
         </div>
-        <div id="level"></div>
+        <div id="chapters">
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+        </div>
+        <div id="level">
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>5</button>
+        </div>
+        <div id="controls">
+          <div id="left">
+            <button class="arrow" id="38">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  fill="white"
+                  d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+                />
+              </svg>
+            </button>
+
+            <button class="arrow" id="40">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  fill="white"
+                  d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div id="right">
+            <button class="arrow" id="37">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  fill="white"
+                  d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                />
+              </svg>
+            </button>
+            <button class="arrow" id="39">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  fill="white"
+                  d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
         <canvas width="1024" height="576"></canvas>
       </div>
     </div>
