@@ -30,7 +30,6 @@
 
       /* menu and buttons */
       #menu {
-        transition: ease-in-out;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -44,7 +43,6 @@
         background: none;
         border-radius: 40px;
         color: rgb(238, 234, 234);
-        transition: 0.3s ease-in-out;
         padding: 10px 30px;
         outline: none;
       }
@@ -62,6 +60,56 @@
       #level {
         display: none;
       }
+
+      /* Choose Chapter */
+      #chapters {
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+      }
+
+      #chapters > * {
+        margin: 5%;
+        width: 5rem;
+        height: 5rem;
+        background-color: #121212;
+        outline: 0;
+        border: none;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      /* End of Choose Chapter */
+
+      /* Choose level */
+
+      #level {
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+      }
+
+      #level > * {
+        margin: 4%;
+        width: 4rem;
+        height: 4rem;
+        background-color: #121212;
+        outline: 0;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      /* End of choose level */
+
       /* End of menu and buttons */
 
       #fps {
@@ -95,6 +143,10 @@
         border: none;
         width: 36px;
         height: 36px;
+      }
+
+      #reload {
+        cursor: pointer;
       }
 
       #reload:hover {
@@ -210,16 +262,16 @@
           <button id="play">PLAY</button>
         </div>
         <div id="chapters">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
+          <button value="1">1</button>
+          <button value="2">2</button>
+          <button value="3">3</button>
         </div>
         <div id="level">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
+          <button value="1">1</button>
+          <button value="2">2</button>
+          <button value="3">3</button>
+          <button value="4">4</button>
+          <button value="5">5</button>
         </div>
         <div id="controls">
           <div id="left">

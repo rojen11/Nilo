@@ -1,6 +1,7 @@
 import Engine from './engine';
 import Tiles from './tiles';
 import Camera from './camera';
+import { Levels } from './levels';
 
 type Level = {
   width: number;
@@ -18,12 +19,19 @@ export default class Map {
 
   public noReloadImage: HTMLImageElement;
 
-  constructor(public level: Level, public engine: Engine) {
+  public level: Level;
+
+  constructor(public engine: Engine) {
     this.ctx = this.engine.context;
     this.camera = this.engine.camera;
-    this.worldHeight = level.height;
-    this.worldWidth = level.width;
+  }
+
+  loadLevel(level: { chapter: number; level: number }): boolean {
+    this.level = Levels.level1;
+    this.worldHeight = this.level.height;
+    this.worldWidth = this.level.width;
     this.generateImage();
+    return true;
   }
 
   generateImage(): void {

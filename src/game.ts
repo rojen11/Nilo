@@ -2,7 +2,7 @@ import Engine from './engine';
 import Render from './render';
 
 export default class Game {
-  private engine: Engine;
+  public engine: Engine;
 
   private lastRender = 0;
 

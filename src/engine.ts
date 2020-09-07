@@ -32,7 +32,7 @@ export default class Engine {
       this.player,
       this,
     );
-    this.map = new Map(Levels.level1, this);
+    this.map = new Map(this);
   }
 
   // game tick
