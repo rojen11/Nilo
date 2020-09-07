@@ -22,7 +22,6 @@ export default abstract class Tiles {
 
   abstract draw(
     ctx: CanvasRenderingContext2D,
-    camera: Camera,
     x: number,
     y: number,
     w: number,
@@ -46,23 +45,15 @@ export class Platform extends Tiles {
 
   draw(
     ctx: CanvasRenderingContext2D,
-    camera: Camera,
     x: number,
     y: number,
     w: number,
     h: number,
   ): void {
-    if (!Tiles.reload) {
-      ctx.save();
-      ctx.fillStyle = 'white';
-      ctx.fillRect(
-        x * Tiles.TilesWidth - Math.ceil(camera.pos.x),
-        y * Tiles.TilesHeight - Math.ceil(camera.pos.y),
-        w,
-        h,
-      );
-      ctx.restore();
-    }
+    ctx.save();
+    ctx.fillStyle = 'white';
+    ctx.fillRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
+    ctx.restore();
   }
 }
 
@@ -73,14 +64,13 @@ export class Spike extends Tiles {
 
   draw(
     ctx: CanvasRenderingContext2D,
-    camera: Camera,
     x: number,
     y: number,
     w: number,
     h: number,
   ): void {
-    const tx = x * Tiles.TilesWidth - Math.ceil(camera.pos.x);
-    const ty = y * Tiles.TilesHeight - Math.ceil(camera.pos.y);
+    const tx = x * Tiles.TilesWidth;
+    const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
