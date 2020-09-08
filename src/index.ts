@@ -3,5 +3,5 @@ import Menu from './menu';
 
 const game = new Game();
 const menu = new Menu(game);
-
+game.begin();
 menu.show();

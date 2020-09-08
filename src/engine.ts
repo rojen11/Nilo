@@ -3,7 +3,6 @@ import Vector2 from './vector';
 import Player from './player';
 import Controls from './controls';
 import Map from './map';
-import { Levels } from './levels';
 
 export default class Engine {
   public context: CanvasRenderingContext2D;
@@ -23,7 +22,8 @@ export default class Engine {
   }
 
   begin(): void {
-    this.player = new Player(this.context, this, new Vector2(250, 250));
+    this.map = new Map(this);
+    this.player = new Player(this.context, this, this.map.start);
     this.controls = new Controls(this.player);
     this.camera = new Camera(
       new Vector2(0, 0),
@@ -32,7 +32,6 @@ export default class Engine {
       this.player,
       this,
     );
-    this.map = new Map(this);
   }
 
   // game tick

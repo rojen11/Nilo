@@ -4,9 +4,9 @@ import { lerp } from './utils';
 import Tiles from './tiles';
 
 export default class Player {
-  public width = 32;
+  public width = 30;
 
-  public height = 32;
+  public height = 30;
 
   public color = 'red';
 
@@ -30,7 +30,9 @@ export default class Player {
     private ctx: CanvasRenderingContext2D,
     private engine: Engine,
     public pos: Vector2,
-  ) {}
+  ) {
+    console.log(pos);
+  }
 
   // update player
   update(dt: number): void {
@@ -66,14 +68,12 @@ export default class Player {
       colx =
         this.checkCollision(
           new Vector2(this.pos.x + this.velocity.x * dt + w, this.pos.y + 1),
-          true,
         ) ||
         this.checkCollision(
           new Vector2(
             this.pos.x + this.velocity.x * dt + w,
             this.pos.y + this.height,
           ),
-          true,
         );
     }
 
@@ -136,33 +136,43 @@ export default class Player {
   }
 
   // Axis Aligned Bounding box collision
-  checkCollision(pos: Vector2, b = false): boolean {
+  checkCollision(pos: Vector2): boolean {
     const tilepos = new Vector2(
       Math.floor(pos.x / Tiles.TilesWidth) * Tiles.TilesWidth,
       Math.floor(pos.y / Tiles.TilesHeight) * Tiles.TilesHeight,
     );
-    const tile =
-      typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth] ===
-        'undefined' ||
-      typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
-        tilepos.x / Tiles.TilesHeight
-      ] === 'undefined'
-        ? 0
-        : this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
-            tilepos.x / Tiles.TilesHeight
-          ];
-    const tileType = Tiles.getTile(tile);
+    if (typeof this.engine.map.level !== 'undefined') {
+      const tile =
+        typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth] ===
+          'undefined' ||
+        typeof this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
+          tilepos.x / Tiles.TilesHeight
+        ] === 'undefined'
+          ? 0
+          : this.engine.map.level.map[tilepos.y / Tiles.TilesWidth][
+              tilepos.x / Tiles.TilesHeight
+            ];
+      const tileType = Tiles.getTile(tile);
 
-    if (tile === 1 && tileType.solid) {
-      if (
-        pos.x < tilepos.x + Tiles.TilesWidth &&
-        pos.x + this.width > tilepos.x &&
-        pos.y < tilepos.y + Tiles.TilesHeight &&
-        pos.y + this.height > tilepos.y
-      ) {
-        return true;
+      if (tile >= 1 && tileType.solid) {
+        if (
+          pos.x < tilepos.x + Tiles.TilesWidth &&
+          pos.x + this.width > tilepos.x &&
+          pos.y < tilepos.y + Tiles.TilesHeight &&
+          pos.y + this.height > tilepos.y
+        ) {
+          if (tile == 2) {
+            this.dead();
+          }
+          return true;
+        }
       }
     }
     return false;
+  }
+
+  dead(): void {
+    const d = document.getElementById('dead');
+    if (d !== null) d.dispatchEvent(new Event('gameover'));
   }
 }

@@ -10,23 +10,42 @@ export default class Game {
 
   private fpsDiv: Element;
   private fpsTime = 0;
+  private context: CanvasRenderingContext2D;
+
+  private animFrame: number;
+
+  private running: boolean;
 
   constructor() {
     const canvas = document.getElementsByTagName('canvas')[0];
-    const context = canvas.getContext('2d');
-    if (context === null) {
-      console.error('context not found');
-    } else {
-      this.engine = new Engine(context);
-      this.render = new Render(this.engine, context);
-      this.engine.begin();
+    const ctx = canvas.getContext('2d');
+    if (ctx !== null) {
+      this.context = ctx;
     }
     const temp = document.getElementById('fps');
     if (temp !== null) this.fpsDiv = temp;
   }
 
+  begin = (): void => {
+    if (this.context === null) {
+      console.error('context not found');
+    } else {
+      this.context.clearRect(
+        0,
+        0,
+        this.context.canvas.width,
+        this.context.canvas.height,
+      );
+      this.engine = new Engine(this.context);
+      this.render = new Render(this.engine, this.context);
+      this.engine.begin();
+    }
+  };
+
   // Game Loop
   loop = (timestamp: number): void => {
+    if (!this.running) return;
+
     const progress = timestamp - this.lastRender;
     let dt = progress / 1000;
 
@@ -36,7 +55,6 @@ export default class Game {
       this.fpsDiv.innerHTML = Math.floor(1 / dt).toString();
       this.fpsTime = 0;
     }
-
     this.engine.update(dt);
     this.render.draw();
 
@@ -46,7 +64,13 @@ export default class Game {
   };
 
   run(): void {
+    this.running = true;
     this.lastRender = 0;
-    window.requestAnimationFrame(this.loop);
+    this.animFrame = window.requestAnimationFrame(this.loop);
+  }
+
+  stop(): void {
+    this.running = false;
+    window.cancelAnimationFrame(this.animFrame);
   }
 }

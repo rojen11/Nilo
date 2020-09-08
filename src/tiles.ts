@@ -1,5 +1,3 @@
-import Camera from './camera';
-
 export default abstract class Tiles {
   public static tiles: Tiles[] = new Array<Tiles>();
 
@@ -58,6 +56,7 @@ export class Platform extends Tiles {
 }
 
 export class Spike extends Tiles {
+  public solid = true;
   constructor(id: number) {
     super(id);
   }

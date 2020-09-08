@@ -9,6 +9,8 @@ export default class Menu {
 
   private levelDiv = document.getElementById('level');
 
+  private gameOverMenu = document.getElementById('dead');
+
   private chapter = 1;
 
   constructor(private game: Game) {
@@ -26,8 +28,18 @@ export default class Menu {
     }
     this.initChapters();
     this.initLevels();
+    this.initGameOver();
   }
 
+  show(): void {
+    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
+  }
+
+  hide(): void {
+    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'hidden';
+  }
+
+  // Chapters
   initChapters(): void {
     if (this.chaptersDiv != null) {
       const btns = this.chaptersDiv.children;
@@ -49,6 +61,7 @@ export default class Menu {
     if (this.chaptersDiv !== null) this.chaptersDiv.style.visibility = 'hidden';
   }
 
+  // Levels
   initLevels(): void {
     if (this.levelDiv != null) {
       const btns = this.levelDiv.children;
@@ -72,11 +85,35 @@ export default class Menu {
     if (this.levelDiv != null) this.levelDiv.style.visibility = 'hidden';
   }
 
-  show(): void {
-    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
+  initGameOver(): void {
+    const deadmenu = document.getElementById('dead_menu');
+    const deadrestart = document.getElementById('dead_restart');
+
+    if (deadmenu !== null) {
+      deadmenu.addEventListener('click', async () => {
+        this.hideGameOver();
+        this.game.begin();
+        this.show();
+      });
+    }
+
+    if (this.gameOverMenu !== null) {
+      this.gameOverMenu.addEventListener('gameover', () => {
+        this.game.stop();
+        this.showGameOver();
+      });
+    }
   }
 
-  hide(): void {
-    if (this.menuDiv !== null) this.menuDiv.style.visibility = 'hidden';
+  hideGameOver(): void {
+    if (this.gameOverMenu !== null) {
+      this.gameOverMenu.style.visibility = 'hidden';
+    }
+  }
+
+  showGameOver(): void {
+    if (this.gameOverMenu !== null) {
+      this.gameOverMenu.style.visibility = 'visible';
+    }
   }
 }

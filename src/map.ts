@@ -1,7 +1,7 @@
 import Engine from './engine';
 import Tiles from './tiles';
-import Camera from './camera';
 import { Levels } from './levels';
+import Vector2 from './vector';
 
 type Level = {
   width: number;
@@ -11,9 +11,10 @@ type Level = {
 
 export default class Map {
   private ctx: CanvasRenderingContext2D;
-  private camera: Camera;
   public worldHeight: number;
   public worldWidth: number;
+  public start: Vector2 = new Vector2(75, 75);
+  public end: Vector2;
 
   public images: Array<HTMLImageElement> = [new Image(), new Image()];
 
@@ -23,11 +24,10 @@ export default class Map {
 
   constructor(public engine: Engine) {
     this.ctx = this.engine.context;
-    this.camera = this.engine.camera;
   }
 
   loadLevel(level: { chapter: number; level: number }): boolean {
-    this.level = Levels.level1;
+    this.level = Levels.level2;
     this.worldHeight = this.level.height;
     this.worldWidth = this.level.width;
     this.generateImage();
@@ -52,9 +52,15 @@ export default class Map {
     this.level.map.forEach((r, y) => {
       r.forEach((c, x) => {
         let b = false;
-        if (c == 1 && i === 0) {
+        if (c <= 5 && i === 0) {
           b = true;
-        } else if (c == 2 && i === 1) {
+          if (c === 4) {
+            this.start = new Vector2(
+              y * Tiles.TilesWidth,
+              x * Tiles.TilesHeight,
+            );
+          }
+        } else if (c > 5 && i === 1) {
           b = true;
         }
         if (c != 0 && b) {
@@ -71,8 +77,8 @@ export default class Map {
   }
 
   draw(): void {
-    const sx = this.camera.pos.x;
-    const sy = this.camera.pos.y;
+    const sx = this.engine.camera.pos.x;
+    const sy = this.engine.camera.pos.y;
 
     const sWidth = this.ctx.canvas.width;
     const sHeight = this.ctx.canvas.height;

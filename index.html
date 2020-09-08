@@ -110,6 +110,39 @@
       }
       /* End of choose level */
 
+      /* Player dead menu */
+
+      #dead {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+        visibility: hidden;
+      }
+
+      #dead > h2 {
+        font-family: cursive;
+        font-size: 5rem;
+        margin: 1rem;
+        color: #fff;
+      }
+
+      #dead > div > * {
+        font-family: cursive;
+        font-size: 3rem;
+        margin: auto 1rem;
+        cursor: pointer;
+        background-color: #121212;
+        outline: 0;
+        border: none;
+        color: #fff;
+      }
+
+      /* End of Player dead menu */
+
       /* End of menu and buttons */
 
       #fps {
@@ -209,6 +242,7 @@
   </head>
   <body>
     <div id="main">
+      <!-- Url Bar -->
       <div id="top-bar">
         <button class="btn">
           <svg
@@ -253,19 +287,25 @@
           </svg>
         </button>
         <p id="urlbar">https://js13kgames.com/404.html</p>
-        <span></span>
-        <div><span></span><span></span></div>
       </div>
+
+      <!-- Game Screen -->
       <div id="screen">
         <div id="fps">0</div>
+
+        <!-- Play Button -->
         <div id="menu">
           <button id="play">PLAY</button>
         </div>
+
+        <!-- Chapters Menu -->
         <div id="chapters">
           <button value="1">1</button>
           <button value="2">2</button>
           <button value="3">3</button>
         </div>
+
+        <!-- Level menu -->
         <div id="level">
           <button value="1">1</button>
           <button value="2">2</button>
@@ -273,6 +313,8 @@
           <button value="4">4</button>
           <button value="5">5</button>
         </div>
+
+        <!-- Mobile Controls -->
         <div id="controls">
           <div id="left">
             <button class="arrow" id="38">
@@ -334,6 +376,15 @@
                 />
               </svg>
             </button>
+          </div>
+        </div>
+
+        <!-- Player dead menu  -->
+        <div id="dead">
+          <h2>Game Over</h2>
+          <div id="dead_buttons">
+            <button id="dead_restart">Restart</button>
+            <button id="dead_menu">Main Menu</button>
           </div>
         </div>
         <canvas width="1024" height="576"></canvas>

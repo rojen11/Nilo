@@ -10,12 +10,6 @@ export default class Render {
     this.engine.map.draw();
     this.engine.player?.draw();
     this.ctx.fillStyle = 'red';
-    // this.ctx.fillRect(
-    //   1408 - this.engine.camera.pos.x,
-    //   608 - this.engine.camera.pos.y,
-    //   32,
-    //   32,
-    // );
     this.ctx.restore();
   }
 }
