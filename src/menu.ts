@@ -12,6 +12,7 @@ export default class Menu {
   private gameOverMenu = document.getElementById('dead');
 
   private chapter = 1;
+  private level = 1;
 
   constructor(private game: Game) {
     if (this.menuDiv !== null && this.playbtn !== null) {
@@ -67,10 +68,8 @@ export default class Menu {
       const btns = this.levelDiv.children;
       for (let i = 0; i < btns.length; i++) {
         btns[i].addEventListener('click', e => {
-          this.game.engine.map.loadLevel({
-            chapter: this.chapter,
-            level: Number((<HTMLButtonElement>e.target).value),
-          });
+          this.level = Number((<HTMLButtonElement>e.target).value);
+          this.game.engine.map.loadLevel(`${this.chapter}${this.level}`);
           this.hidelevels();
           this.game.run();
         });
@@ -100,7 +99,9 @@ export default class Menu {
     if (this.gameOverMenu !== null) {
       this.gameOverMenu.addEventListener('gameover', () => {
         this.game.stop();
-        this.showGameOver();
+        this.game.begin();
+        this.game.engine.map.loadLevel(`${this.chapter}${this.level}`);
+        this.game.run();
       });
     }
   }

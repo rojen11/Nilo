@@ -3,6 +3,7 @@ import Engine from './engine';
 import { lerp } from './utils';
 import Tiles from './tiles';
 
+declare const zzfx: any;
 export default class Player {
   public width = 30;
 
@@ -20,10 +21,14 @@ export default class Player {
 
   public jumpHeight = 6;
 
+  public jumpVelocity = -1200;
+
   public state = {
     falling: false,
     jumping: false,
     jumpStartHeight: 0,
+    dead: false,
+    jumpPad: false,
   };
 
   constructor(
@@ -31,12 +36,16 @@ export default class Player {
     private engine: Engine,
     public pos: Vector2,
   ) {
-    console.log(pos);
+    this.state.dead = false;
   }
 
   // update player
   update(dt: number): void {
     // console.log(dt);
+    if (this.state.dead) {
+      // this.playDeadAnimation(dt);
+      return;
+    }
     this.velGoal = 0;
 
     let mdt = 1000;
@@ -52,9 +61,32 @@ export default class Player {
       this.velGoal = this.speed;
     }
     if (this.engine.controls.control.up && !this.state.jumping) {
-      this.velocity.y = -1200;
+      this.velocity.y = this.jumpVelocity;
       this.state.jumping = true;
       this.state.jumpStartHeight = this.pos.y;
+      // eslint-disable-next-line no-sparse-arrays
+      zzfx(
+        0.4,
+        0,
+        564,
+        0,
+        0.01,
+        0.01,
+        0,
+        0,
+        1.3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.4,
+        0.03,
+        0,
+      ); // jump
     } else if (this.engine.controls.control.down) {
       tg = 2000;
     }
@@ -83,17 +115,19 @@ export default class Player {
 
     // collision in y axis
     let coly = false;
-    if (this.velocity.y !== 0) {
+    if (this.velocity.y !== 0 && !this.state.dead) {
       const h = this.velocity.y < 0 ? 0 : this.height;
       coly =
         this.checkCollision(
           new Vector2(this.pos.x, this.pos.y + this.velocity.y * dt + h),
+          true,
         ) ||
         this.checkCollision(
           new Vector2(
             this.pos.x + this.width,
             this.pos.y + this.velocity.y * dt + h,
           ),
+          true,
         );
       if (coly) {
         this.velocity.y = 0;
@@ -104,12 +138,14 @@ export default class Player {
                 this.pos.x,
                 this.pos.y + (this.gravity.y + tg) * dt + this.height,
               ),
+              true,
             ) ||
             this.checkCollision(
               new Vector2(
                 this.pos.x + this.width,
                 this.pos.y + this.gravity.y * dt + this.height,
               ),
+              true,
             )
           ) {
             this.velocity.y += this.gravity.y * dt;
@@ -119,6 +155,13 @@ export default class Player {
         }
       }
     }
+
+    if (this.state.jumpPad) {
+      this.velocity.y = this.jumpVelocity * 1.5;
+      this.state.jumpPad = false;
+    }
+
+    if (this.state.dead) this.velocity.x = 0;
 
     this.pos.add(new Vector2(this.velocity.x * dt, this.velocity.y * dt));
   }
@@ -136,7 +179,8 @@ export default class Player {
   }
 
   // Axis Aligned Bounding box collision
-  checkCollision(pos: Vector2): boolean {
+  checkCollision(pos: Vector2, verticle = false): boolean {
+    if (this.state.dead) return false;
     const tilepos = new Vector2(
       Math.floor(pos.x / Tiles.TilesWidth) * Tiles.TilesWidth,
       Math.floor(pos.y / Tiles.TilesHeight) * Tiles.TilesHeight,
@@ -161,8 +205,12 @@ export default class Player {
           pos.y < tilepos.y + Tiles.TilesHeight &&
           pos.y + this.height > tilepos.y
         ) {
-          if (tile == 2) {
+          if ((tile == 2 || tile == 7) && verticle) {
             this.dead();
+            return false;
+          }
+          if (tile === 3 && verticle) {
+            this.state.jumpPad = true;
           }
           return true;
         }
@@ -171,8 +219,40 @@ export default class Player {
     return false;
   }
 
+  playDeadAnimation(dt: number): void {
+    this.velocity.y += this.gravity.y * dt;
+    this.pos.add(new Vector2(0, this.velocity.y * dt));
+  }
+
   dead(): void {
-    const d = document.getElementById('dead');
-    if (d !== null) d.dispatchEvent(new Event('gameover'));
+    if (!this.state.dead) {
+      zzfx(
+        1,
+        0.05,
+        85,
+        0,
+        0.07,
+        0.04,
+        1,
+        2.9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1.5,
+        0,
+        0,
+        0.06,
+        0.6,
+        0.01,
+        0.09,
+      ); // death
+      this.state.dead = true;
+      this.speed = 0;
+      this.jumpVelocity = 0;
+      const d = document.getElementById('dead');
+      if (d !== null) d.dispatchEvent(new Event('gameover'));
+    }
   }
 }

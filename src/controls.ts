@@ -1,4 +1,5 @@
 import Player from './player';
+import Tiles from './tiles';
 
 export default class Controls {
   control = {
@@ -37,11 +38,6 @@ export default class Controls {
           this.onkeyup({ keyCode: Number(targetEl.id) });
         }
       });
-    }
-
-    if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
-      const controlEl = document.getElementById('controls');
-      if (controlEl !== null) controlEl.style.visibility = 'visible';
     }
   }
 
@@ -86,5 +82,26 @@ export default class Controls {
     if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
       this.control.left = false;
     }
+
+    if (e.keyCode === 32) {
+      Tiles.reloadbtn();
+    }
+
+    if (e.keyCode === 82) {
+      this.player.dead();
+    }
   };
+
+  showControls(): void {
+    if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
+      const controlEl = document.getElementById('controls');
+      if (controlEl !== null) controlEl.style.visibility = 'visible';
+    }
+  }
+  hideControls(): void {
+    if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
+      const controlEl = document.getElementById('controls');
+      if (controlEl !== null) controlEl.style.visibility = 'hidden';
+    }
+  }
 }

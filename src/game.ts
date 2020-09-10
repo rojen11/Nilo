@@ -66,6 +66,7 @@ export default class Game {
   run(): void {
     this.running = true;
     this.lastRender = 0;
+    this.engine.controls.showControls();
     this.animFrame = window.requestAnimationFrame(this.loop);
   }
 

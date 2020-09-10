@@ -1,14 +1,25 @@
 import Engine from './engine';
 import Tiles from './tiles';
-import { Levels } from './levels';
+import { Levels, Level } from './levels';
 import Vector2 from './vector';
 
-type Level = {
-  width: number;
-  height: number;
-  map: Array<Array<number>>;
-};
-
+const maps = [
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '31',
+  '32',
+  '33',
+  '34',
+  '35',
+];
 export default class Map {
   private ctx: CanvasRenderingContext2D;
   public worldHeight: number;
@@ -22,12 +33,15 @@ export default class Map {
 
   public level: Level;
 
+  public levelIndex: number;
+
   constructor(public engine: Engine) {
     this.ctx = this.engine.context;
   }
 
-  loadLevel(level: { chapter: number; level: number }): boolean {
-    this.level = Levels.level2;
+  loadLevel(level: string): boolean {
+    this.level = Levels[level];
+    this.levelIndex = maps.indexOf(level);
     this.worldHeight = this.level.height;
     this.worldWidth = this.level.width;
     this.generateImage();
