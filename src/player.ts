@@ -41,9 +41,7 @@ export default class Player {
 
   // update player
   update(dt: number): void {
-    // console.log(dt);
     if (this.state.dead) {
-      // this.playDeadAnimation(dt);
       return;
     }
     this.velGoal = 0;
@@ -64,6 +62,7 @@ export default class Player {
       this.velocity.y = this.jumpVelocity;
       this.state.jumping = true;
       this.state.jumpStartHeight = this.pos.y;
+      this.state.falling = true;
       // eslint-disable-next-line no-sparse-arrays
       zzfx(
         0.4,
@@ -89,6 +88,7 @@ export default class Player {
       ); // jump
     } else if (this.engine.controls.control.down) {
       tg = 2000;
+      this.state.falling = true;
     }
 
     this.velocity.x = lerp(this.velGoal, this.velocity.x, dt * mdt);
@@ -96,6 +96,7 @@ export default class Player {
     // collision in x axis
     let colx = false;
     if (this.velocity.x !== 0) {
+      this.state.falling = true;
       const w = this.velocity.x < 0 ? 0 : this.width;
       colx =
         this.checkCollision(
@@ -130,6 +131,7 @@ export default class Player {
           true,
         );
       if (coly) {
+        const tvel = this.velocity.y * dt;
         this.velocity.y = 0;
         if (h === 0) {
           if (
@@ -149,8 +151,15 @@ export default class Player {
             )
           ) {
             this.velocity.y += this.gravity.y * dt;
+            this.state.falling = true;
           }
         } else {
+          if (tvel > 2) {
+            this.state.falling = true;
+          } else {
+            this.state.falling = false;
+          }
+
           this.state.jumping = false;
         }
       }
@@ -159,6 +168,11 @@ export default class Player {
     if (this.state.jumpPad) {
       this.velocity.y = this.jumpVelocity * 1.5;
       this.state.jumpPad = false;
+      this.state.falling = true;
+    }
+
+    if (!this.state.falling) {
+      this.velocity.y = 0;
     }
 
     if (this.state.dead) this.velocity.x = 0;
