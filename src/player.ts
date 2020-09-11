@@ -226,6 +226,28 @@ export default class Player {
             return false;
           }
           if (tile === 3 && verticle) {
+            zzfx(
+              1,
+              -0.1,
+              440,
+              0.05,
+              0.01,
+              0.16,
+              0,
+              1.69,
+              -17.7,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.4,
+              0,
+              0,
+              0.65,
+              0.01,
+              0,
+            ); // Jump pad
             this.state.jumpPad = true;
           }
           return true;
