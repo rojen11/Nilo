@@ -149,6 +149,25 @@ export class JumpPad extends Tiles {
   }
 }
 
+class Spawn extends Tiles {
+  public solid = false;
+  constructor(id: number) {
+    super(id);
+  }
+
+  draw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ): void {
+    ctx.save();
+    ctx.clearRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
+    ctx.restore();
+  }
+}
+
 export class nonPlatform extends Tiles {
   public solid = true;
 
@@ -208,6 +227,7 @@ export class nonSpike extends Tiles {
   new Platform(1);
   new Spike(2);
   new JumpPad(3);
+  new Spawn(4);
   new nonPlatform(6);
   new nonSpike(7);
 })();

@@ -85,6 +85,7 @@ export default class Controls {
 
     if (e.keyCode === 32) {
       Tiles.reloadbtn();
+      this.player.state.falling = true;
     }
 
     if (e.keyCode === 82) {

@@ -45,6 +45,7 @@ export default class Map {
     this.worldHeight = this.level.height;
     this.worldWidth = this.level.width;
     this.generateImage();
+    if (this.engine.player !== undefined) this.engine.player.pos = this.start;
     return true;
   }
 
@@ -70,9 +71,10 @@ export default class Map {
           b = true;
           if (c === 4) {
             this.start = new Vector2(
-              y * Tiles.TilesWidth,
-              x * Tiles.TilesHeight,
+              x * Tiles.TilesWidth,
+              y * Tiles.TilesHeight,
             );
+            b = false;
           }
         } else if (c > 5 && i === 1) {
           b = true;
