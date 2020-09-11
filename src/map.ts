@@ -2,6 +2,7 @@ import Engine from './engine';
 import Tiles from './tiles';
 import { Levels, Level } from './levels';
 import Vector2 from './vector';
+import { chapters } from './chapters';
 
 const maps = [
   '11',
@@ -20,6 +21,7 @@ const maps = [
   '34',
   '35',
 ];
+
 export default class Map {
   private ctx: CanvasRenderingContext2D;
   public worldHeight: number;
@@ -45,7 +47,13 @@ export default class Map {
     this.worldHeight = this.level.height;
     this.worldWidth = this.level.width;
     this.generateImage();
-    if (this.engine.player !== undefined) this.engine.player.pos = this.start;
+    if (this.engine.player !== undefined) {
+      this.engine.player.pos = this.start;
+      this.engine.player.pcolor =
+        chapters[
+          Math.floor(Number(maps[this.levelIndex]) / 10).toString()
+        ].colors.player;
+    }
     return true;
   }
 
@@ -86,6 +94,7 @@ export default class Map {
             y,
             Tiles.TilesWidth,
             Tiles.TilesHeight,
+            Math.floor(Number(maps[this.levelIndex]) / 10).toString(),
           );
         }
       });

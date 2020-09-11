@@ -23,6 +23,8 @@ export default class Player {
 
   public jumpVelocity = -1200;
 
+  public pcolor = '#000';
+
   public state = {
     falling: false,
     jumping: false,
@@ -182,7 +184,7 @@ export default class Player {
 
   draw(): void {
     this.ctx.save();
-    this.ctx.fillStyle = 'white';
+    this.ctx.fillStyle = this.pcolor;
     this.ctx.fillRect(
       this.pos.x - this.engine.camera.pos.x,
       this.pos.y - this.engine.camera.pos.y,

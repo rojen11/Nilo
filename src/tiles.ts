@@ -1,3 +1,5 @@
+import { chapters } from './chapters';
+
 declare const zzfx: any;
 
 export default abstract class Tiles {
@@ -57,6 +59,7 @@ export default abstract class Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void;
 
   public static getTile(id: number): Tiles {
@@ -80,9 +83,10 @@ export class Platform extends Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void {
     ctx.save();
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = chapters[ch].colors.platform;
     ctx.fillRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
     ctx.restore();
   }
@@ -100,11 +104,13 @@ export class Spike extends Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void {
     const tx = x * Tiles.TilesWidth;
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
+    ctx.fillStyle = chapters[ch].colors.spike;
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx, ty + h / 2);
     ctx.lineTo(tx + w / 4 / 2, ty);
@@ -116,7 +122,6 @@ export class Spike extends Tiles {
     ctx.lineTo(tx + (w / 4) * 3 + w / 4 / 2, ty);
     ctx.lineTo(tx + (w / 4) * 4, ty + h / 2);
     ctx.closePath();
-    ctx.fillStyle = 'black';
     ctx.fill();
     ctx.restore();
   }
@@ -135,11 +140,13 @@ export class JumpPad extends Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void {
     const tx = x * Tiles.TilesWidth;
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
+    ctx.fillStyle = chapters[ch].colors.jumppad;
     ctx.fillRect(tx, ty, w, h / 4);
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx + w / 2 - 3, ty + h / 4);
@@ -181,9 +188,10 @@ export class nonPlatform extends Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void {
     ctx.save();
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = chapters[ch].colors.nonplatform;
     ctx.fillRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
     ctx.restore();
   }
@@ -201,11 +209,13 @@ export class nonSpike extends Tiles {
     y: number,
     w: number,
     h: number,
+    ch: string,
   ): void {
     const tx = x * Tiles.TilesWidth;
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
+    ctx.fillStyle = chapters[ch].colors.nonspike;
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx, ty + h / 2);
     ctx.lineTo(tx + w / 4 / 2, ty);
@@ -217,7 +227,6 @@ export class nonSpike extends Tiles {
     ctx.lineTo(tx + (w / 4) * 3 + w / 4 / 2, ty);
     ctx.lineTo(tx + (w / 4) * 4, ty + h / 2);
     ctx.closePath();
-    ctx.fillStyle = 'black';
     ctx.fill();
     ctx.restore();
   }
