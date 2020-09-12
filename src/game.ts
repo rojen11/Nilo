@@ -27,6 +27,7 @@ export default class Game {
     }
     const temp = document.getElementById('fps');
     if (temp !== null) this.fpsDiv = temp;
+    this.initLocalStorage();
   }
 
   begin = (): void => {
@@ -39,7 +40,7 @@ export default class Game {
         this.context.canvas.width,
         this.context.canvas.height,
       );
-      this.engine = new Engine(this.context);
+      this.engine = new Engine(this.context, this);
       this.render = new Render(this.engine, this.context);
       this.engine.begin();
     }
@@ -76,5 +77,46 @@ export default class Game {
   stop(): void {
     this.running = false;
     window.cancelAnimationFrame(this.animFrame);
+  }
+
+  initLocalStorage(): void {
+    if (this.storageAvailable()) {
+      if (localStorage.getItem('game-storage') === null) {
+        localStorage.setItem('game-storage', JSON.stringify({ levelIndex: 0 }));
+      }
+    }
+  }
+
+  setLocalStorage(key: string, value: string): void {
+    const currentString = localStorage.getItem('game-storage');
+    if (currentString !== null) {
+      const currentJSON = JSON.parse(currentString);
+      currentJSON[key] = value;
+      localStorage.setItem('game-storage', JSON.stringify(currentJSON));
+    }
+  }
+
+  getLocalStorage(key: string): string | boolean {
+    const currentString = localStorage.getItem('game-storage');
+    if (currentString !== null) {
+      const currentJSON = JSON.parse(currentString);
+      if (currentJSON[key] !== null) {
+        return currentJSON[key];
+      }
+    }
+    return false;
+  }
+
+  storageAvailable(): boolean {
+    let storage;
+    try {
+      storage = window.localStorage;
+      const x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return !(e instanceof DOMException);
+    }
   }
 }

@@ -3,6 +3,7 @@ import Vector2 from './vector';
 import Player from './player';
 import Controls from './controls';
 import Map from './map';
+import Game from './game';
 
 export default class Engine {
   public context: CanvasRenderingContext2D;
@@ -17,7 +18,7 @@ export default class Engine {
 
   public map: Map;
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, public game: Game) {
     this.context = context;
   }
 

@@ -14,6 +14,10 @@ export default class Menu {
 
   private backward = document.getElementById('backward');
 
+  private forward = document.getElementById('forward');
+
+  private menubtn = document.getElementById('menubtn');
+
   private fullscreen = document.getElementById('fullscreen');
 
   private displayStatus = 'home';
@@ -59,8 +63,31 @@ export default class Menu {
     }
 
     // Forward button
+    if (this.forward !== null) {
+      this.forward.addEventListener('click', () => {
+        const levelIndex = this.game.engine.map.levelIndex;
+        if (typeof levelIndex !== 'undefined') {
+          if (
+            !(levelIndex >= Number(this.game.getLocalStorage('levelIndex')))
+          ) {
+            this.game.stop();
+            this.game.begin();
+            this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+            this.game.run();
+          }
+        }
+      });
+    }
 
     // menu button
+    if (this.menubtn !== null) {
+      this.menubtn.addEventListener('click', () => {
+        this.game.stop();
+        this.hideChapters();
+        this.hidelevels();
+        this.show();
+      });
+    }
 
     // fullscreen button
     if (this.fullscreen !== null) {
@@ -69,7 +96,6 @@ export default class Menu {
       });
     }
 
-    this.initLocalStorage();
     this.initChapters();
     this.initLevels();
     this.initEvents();
@@ -77,6 +103,13 @@ export default class Menu {
 
   show(): void {
     if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
+    this.game.engine.context.clearRect(
+      0,
+      0,
+      this.game.engine.context.canvas.width,
+      this.game.engine.context.canvas.height,
+    );
+    this.game.engine.context.canvas.style.backgroundColor = '#fcea48';
     this.displayStatus = 'menu';
   }
 
@@ -145,49 +178,9 @@ export default class Menu {
         this.game.stop();
         this.game.begin();
         this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+        this.game.setLocalStorage('levelIndex', (levelIndex + 1).toString());
         this.game.run();
       });
-    }
-  }
-
-  initLocalStorage(): void {
-    if (this.storageAvailable()) {
-      if (localStorage.getItem('game-storage') === null) {
-        localStorage.setItem('game-storage', JSON.stringify({ levelIndex: 0 }));
-      }
-    }
-  }
-
-  setLocalStorage(key: string, value: string): void {
-    const currentString = localStorage.getItem('game-storage');
-    if (currentString !== null) {
-      const currentJSON = JSON.parse(currentString);
-      currentJSON[key] = value;
-      localStorage.setItem('game-storage', JSON.stringify(currentJSON));
-    }
-  }
-
-  getLocalStorage(key: string): string | boolean {
-    const currentString = localStorage.getItem('game-storage');
-    if (currentString !== null) {
-      const currentJSON = JSON.parse(currentString);
-      if (currentJSON[key] !== null) {
-        return currentJSON[key];
-      }
-    }
-    return false;
-  }
-
-  storageAvailable(): boolean {
-    let storage;
-    try {
-      storage = window.localStorage;
-      const x = '__storage_test__';
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-    } catch (e) {
-      return !(e instanceof DOMException);
     }
   }
 
