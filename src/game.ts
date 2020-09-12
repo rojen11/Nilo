@@ -1,4 +1,5 @@
 import Engine from './engine';
+import { maps } from './map';
 import Render from './render';
 
 export default class Game {
@@ -15,6 +16,8 @@ export default class Game {
   private animFrame: number;
 
   private running: boolean;
+
+  public events = document.getElementById('events');
 
   constructor() {
     const canvas = document.getElementsByTagName('canvas')[0];

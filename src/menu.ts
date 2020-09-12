@@ -1,6 +1,5 @@
 import Game from './game';
 import { maps } from './map';
-import { Platform } from './tiles';
 
 export default class Menu {
   private menuDiv = document.getElementById('menu');
@@ -11,9 +10,11 @@ export default class Menu {
 
   private levelDiv = document.getElementById('level');
 
-  private gameOverMenu = document.getElementById('dead');
+  private events = document.getElementById('events');
 
   private backward = document.getElementById('backward');
+
+  private fullscreen = document.getElementById('fullscreen');
 
   private displayStatus = 'home';
 
@@ -24,7 +25,7 @@ export default class Menu {
     if (this.menuDiv !== null && this.playbtn !== null) {
       this.playbtn.addEventListener('click', () => {
         if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
-          document.documentElement.requestFullscreen();
+          this.toggleFullScreen();
           window.screen.orientation.lock('landscape');
         }
         this.hide();
@@ -47,17 +48,31 @@ export default class Menu {
           }
         } else {
           if (this.game.engine.map.levelIndex > 0) {
-            this.game.engine.map.loadLevel(
-              maps[this.game.engine.map.levelIndex - 1],
-            );
+            const levelIndex = this.game.engine.map.levelIndex;
+            this.game.stop();
+            this.game.begin();
+            this.game.engine.map.loadLevel(maps[levelIndex - 1]);
+            this.game.run();
           }
         }
       });
     }
+
+    // Forward button
+
+    // menu button
+
+    // fullscreen button
+    if (this.fullscreen !== null) {
+      this.fullscreen.addEventListener('click', () => {
+        this.toggleFullScreen();
+      });
+    }
+
     this.initLocalStorage();
     this.initChapters();
     this.initLevels();
-    this.initGameOver();
+    this.initEvents();
   }
 
   show(): void {
@@ -115,37 +130,23 @@ export default class Menu {
     if (this.levelDiv != null) this.levelDiv.style.visibility = 'hidden';
   }
 
-  initGameOver(): void {
-    const deadmenu = document.getElementById('dead_menu');
-    const deadrestart = document.getElementById('dead_restart');
-
-    if (deadmenu !== null) {
-      deadmenu.addEventListener('click', async () => {
-        this.hideGameOver();
-        this.game.begin();
-        this.show();
-      });
-    }
-
-    if (this.gameOverMenu !== null) {
-      this.gameOverMenu.addEventListener('gameover', () => {
+  initEvents(): void {
+    if (this.events !== null) {
+      this.events.addEventListener('gameover', () => {
+        const levelIndex = this.game.engine.map.levelIndex;
         this.game.stop();
         this.game.begin();
-        this.game.engine.map.loadLevel(`${this.chapter}${this.level}`);
+        this.game.engine.map.loadLevel(maps[levelIndex]);
         this.game.run();
       });
-    }
-  }
 
-  hideGameOver(): void {
-    if (this.gameOverMenu !== null) {
-      this.gameOverMenu.style.visibility = 'hidden';
-    }
-  }
-
-  showGameOver(): void {
-    if (this.gameOverMenu !== null) {
-      this.gameOverMenu.style.visibility = 'visible';
+      this.events.addEventListener('fileFound', () => {
+        const levelIndex = this.game.engine.map.levelIndex;
+        this.game.stop();
+        this.game.begin();
+        this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+        this.game.run();
+      });
     }
   }
 
@@ -166,6 +167,17 @@ export default class Menu {
     }
   }
 
+  getLocalStorage(key: string): string | boolean {
+    const currentString = localStorage.getItem('game-storage');
+    if (currentString !== null) {
+      const currentJSON = JSON.parse(currentString);
+      if (currentJSON[key] !== null) {
+        return currentJSON[key];
+      }
+    }
+    return false;
+  }
+
   storageAvailable(): boolean {
     let storage;
     try {
@@ -176,21 +188,35 @@ export default class Menu {
       return true;
     } catch (e) {
       return !(e instanceof DOMException);
-      // (
-      //   e instanceof DOMException &&
-      //   // everything except Firefox
-      //   (e.code === 22 ||
-      //     // Firefox
-      //     e.code === 1014 ||
-      //     // test name field too, because code might not be present
-      //     // everything except Firefox
-      //     e.name === 'QuotaExceededError' ||
-      //     // Firefox
-      //     e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-      //   // acknowledge QuotaExceededError only if there's something already stored
-      //   storage &&
-      //   storage.length !== 0
-      // );
     }
+  }
+
+  toggleFullScreen(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const doc: any = window.document;
+    const docEl = doc.documentElement;
+
+    const requestFullScreen =
+      docEl.requestFullscreen ||
+      docEl.mozRequestFullScreen ||
+      docEl.webkitRequestFullScreen ||
+      docEl.msRequestFullscreen;
+    const cancelFullScreen =
+      doc.exitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen ||
+      doc.msExitFullscreen;
+
+    if (
+      !doc.fullscreenElement &&
+      !doc.mozFullScreenElement &&
+      !doc.webkitFullscreenElement &&
+      !doc.msFullscreenElement
+    ) {
+      requestFullScreen.call(docEl);
+    } else {
+      cancelFullScreen.call(doc);
+    }
+    window.screen.orientation.lock('landscape');
   }
 }

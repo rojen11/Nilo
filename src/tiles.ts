@@ -1,5 +1,6 @@
 import { chapters } from './chapters';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const zzfx: any;
 
 export default abstract class Tiles {
@@ -175,6 +176,37 @@ class Spawn extends Tiles {
   }
 }
 
+class End extends Tiles {
+  public solid = true;
+  constructor(id: number) {
+    super(id);
+  }
+
+  draw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    ch: string,
+  ): void {
+    ctx.save();
+    const tx = x * Tiles.TilesWidth;
+    const ty = y * Tiles.TilesHeight;
+    ctx.fillStyle = chapters[ch].colors.end;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.translate(tx, ty);
+    ctx.scale(1.4, 1.4);
+    const p = new Path2D(
+      'M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z',
+    );
+    ctx.stroke(p);
+    ctx.fill(p);
+    ctx.restore();
+  }
+}
+
 export class nonPlatform extends Tiles {
   public solid = true;
 
@@ -237,6 +269,7 @@ export class nonSpike extends Tiles {
   new Spike(2);
   new JumpPad(3);
   new Spawn(4);
+  new End(5);
   new nonPlatform(6);
   new nonSpike(7);
 })();

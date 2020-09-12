@@ -54,6 +54,10 @@ export default class Map {
           Math.floor(Number(maps[this.levelIndex]) / 10).toString()
         ].colors.player;
     }
+    this.engine.context.canvas.style.backgroundColor =
+      chapters[
+        Math.floor(Number(maps[this.levelIndex]) / 10).toString()
+      ].colors.background;
     return true;
   }
 
