@@ -4,7 +4,7 @@ import { Levels, Level } from './levels';
 import Vector2 from './vector';
 import { chapters } from './chapters';
 
-const maps = [
+export const maps = [
   '11',
   '12',
   '13',

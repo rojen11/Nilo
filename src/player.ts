@@ -110,6 +110,13 @@ export default class Player {
             this.pos.y + this.height,
           ),
         );
+      if (
+        this.pos.x + this.velocity.x * dt + w >
+          this.engine.map.worldWidth * Tiles.TilesWidth - Tiles.TilesWidth ||
+        this.pos.x + this.velocity.x * dt + w < 0 + Tiles.TilesWidth
+      ) {
+        colx = true;
+      }
     }
 
     if (colx) this.velocity.x = 0;
@@ -132,6 +139,13 @@ export default class Player {
           ),
           true,
         );
+      if (
+        this.pos.y + this.velocity.y * dt + h >
+          this.engine.map.worldHeight * Tiles.TilesHeight - Tiles.TilesHeight ||
+        this.pos.y + this.velocity.y * dt + h < 0 + Tiles.TilesHeight
+      ) {
+        coly = true;
+      }
       if (coly) {
         const tvel = this.velocity.y * dt;
         this.velocity.y = 0;
