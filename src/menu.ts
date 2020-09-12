@@ -54,7 +54,7 @@ export default class Menu {
         }
       });
     }
-
+    this.initLocalStorage();
     this.initChapters();
     this.initLevels();
     this.initGameOver();
@@ -146,6 +146,51 @@ export default class Menu {
   showGameOver(): void {
     if (this.gameOverMenu !== null) {
       this.gameOverMenu.style.visibility = 'visible';
+    }
+  }
+
+  initLocalStorage(): void {
+    if (this.storageAvailable()) {
+      if (localStorage.getItem('game-storage') === null) {
+        localStorage.setItem('game-storage', JSON.stringify({ levelIndex: 0 }));
+      }
+    }
+  }
+
+  setLocalStorage(key: string, value: string): void {
+    const currentString = localStorage.getItem('game-storage');
+    if (currentString !== null) {
+      const currentJSON = JSON.parse(currentString);
+      currentJSON[key] = value;
+      localStorage.setItem('game-storage', JSON.stringify(currentJSON));
+    }
+  }
+
+  storageAvailable(): boolean {
+    let storage;
+    try {
+      storage = window.localStorage;
+      const x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return !(e instanceof DOMException);
+      // (
+      //   e instanceof DOMException &&
+      //   // everything except Firefox
+      //   (e.code === 22 ||
+      //     // Firefox
+      //     e.code === 1014 ||
+      //     // test name field too, because code might not be present
+      //     // everything except Firefox
+      //     e.name === 'QuotaExceededError' ||
+      //     // Firefox
+      //     e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+      //   // acknowledge QuotaExceededError only if there's something already stored
+      //   storage &&
+      //   storage.length !== 0
+      // );
     }
   }
 }
