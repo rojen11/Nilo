@@ -1,5 +1,4 @@
 import Player from './player';
-import Tiles from './tiles';
 
 export default class Controls {
   control = {
@@ -9,7 +8,15 @@ export default class Controls {
     right: false,
   };
 
-  constructor(public player: Player) {
+  private player: Player;
+
+  private static Instance: Controls = new Controls();
+
+  public static getInstance(): Controls {
+    return this.Instance;
+  }
+
+  constructor() {
     window.addEventListener('keydown', this.onkeydown);
     window.addEventListener('keyup', this.onkeyup);
     const arrows = document.getElementsByClassName('arrow');
@@ -39,6 +46,10 @@ export default class Controls {
         }
       });
     }
+  }
+
+  init(player: Player): void {
+    this.player = player;
   }
 
   onkeydown = (e: { keyCode: number }): void => {
@@ -84,8 +95,7 @@ export default class Controls {
     }
 
     if (e.keyCode === 32) {
-      Tiles.reloadbtn();
-      this.player.state.falling = true;
+      document.getElementById('reload')?.click();
     }
 
     if (e.keyCode === 82) {

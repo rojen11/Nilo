@@ -25,7 +25,8 @@ export default class Engine {
   begin(): void {
     this.map = new Map(this);
     this.player = new Player(this.context, this, this.map.start);
-    this.controls = new Controls(this.player);
+    this.controls = Controls.getInstance();
+    this.controls.init(this.player);
     this.camera = new Camera(
       new Vector2(0, 0),
       this.context.canvas.width,

@@ -13,45 +13,6 @@ export default abstract class Tiles {
 
   constructor(public id: number) {
     Tiles.tiles[id] = this;
-    document
-      .getElementById('reload')
-      ?.addEventListener('click', Tiles.reloadbtn);
-  }
-
-  static reloadbtn(): void {
-    if (!Tiles.reload) {
-      Tiles.reload = true;
-      zzfx(
-        1,
-        0,
-        7865,
-        0.1,
-        0.11,
-        0,
-        0,
-        1.6,
-        -1.8,
-        0.3,
-        -500,
-        -0.09,
-        0.01,
-        0.2,
-        0,
-        0,
-        0.13,
-        0.64,
-        0.18,
-        0,
-      ); // refresh;
-
-      Tiles.tiles[1].setSolid(false);
-      Tiles.tiles[2].setSolid(false);
-      setTimeout(function () {
-        Tiles.reload = false;
-        Tiles.tiles[1].setSolid(true);
-        Tiles.tiles[2].setSolid(true);
-      }, 200);
-    }
   }
 
   abstract draw(

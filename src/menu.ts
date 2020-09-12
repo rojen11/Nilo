@@ -1,5 +1,9 @@
 import Game from './game';
 import { maps } from './map';
+import Tiles from './tiles';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const zzfx: any;
 
 export default class Menu {
   private menuDiv = document.getElementById('menu');
@@ -17,6 +21,8 @@ export default class Menu {
   private forward = document.getElementById('forward');
 
   private menubtn = document.getElementById('menubtn');
+
+  private reloadbtn = document.getElementById('reload');
 
   private fullscreen = document.getElementById('fullscreen');
 
@@ -87,6 +93,11 @@ export default class Menu {
         this.hidelevels();
         this.show();
       });
+    }
+
+    // reload button
+    if (this.reloadbtn !== null) {
+      this.reloadbtn.addEventListener('click', this.refresh);
     }
 
     // fullscreen button
@@ -212,4 +223,44 @@ export default class Menu {
     }
     window.screen.orientation.lock('landscape');
   }
+
+  refresh = (): void => {
+    if (!Tiles.reload) {
+      const player = this.game.engine.player;
+      if (player !== undefined) {
+        player.state.falling = true;
+      }
+      Tiles.reload = true;
+      zzfx(
+        1,
+        0,
+        7865,
+        0.1,
+        0.11,
+        0,
+        0,
+        1.6,
+        -1.8,
+        0.3,
+        -500,
+        -0.09,
+        0.01,
+        0.2,
+        0,
+        0,
+        0.13,
+        0.64,
+        0.18,
+        0,
+      ); // refresh;
+
+      Tiles.tiles[1].setSolid(false);
+      Tiles.tiles[2].setSolid(false);
+      setTimeout(function () {
+        Tiles.reload = false;
+        Tiles.tiles[1].setSolid(true);
+        Tiles.tiles[2].setSolid(true);
+      }, 200);
+    }
+  };
 }

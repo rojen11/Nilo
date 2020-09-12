@@ -1,5 +1,4 @@
 import Engine from './engine';
-import { maps } from './map';
 import Render from './render';
 
 export default class Game {
