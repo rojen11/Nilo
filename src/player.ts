@@ -3,6 +3,7 @@ import Engine from './engine';
 import { lerp } from './utils';
 import Tiles from './tiles';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const zzfx: any;
 export default class Player {
   public width = 30;
@@ -264,6 +265,34 @@ export default class Player {
             ); // Jump pad
             this.state.jumpPad = true;
           }
+          if (tile === 5) {
+            const d = document.getElementById('events');
+            if (d !== null) {
+              zzfx(
+                1,
+                0,
+                776,
+                0.01,
+                0.23,
+                0,
+                0,
+                1.89,
+                0,
+                0,
+                343,
+                0.05,
+                0.1,
+                0,
+                0,
+                0,
+                0,
+                0.65,
+                0,
+                0.3,
+              ); // end
+              d.dispatchEvent(new Event('fileFound'));
+            }
+          }
           return true;
         }
       }
@@ -303,7 +332,7 @@ export default class Player {
       this.state.dead = true;
       this.speed = 0;
       this.jumpVelocity = 0;
-      const d = document.getElementById('dead');
+      const d = document.getElementById('events');
       if (d !== null) d.dispatchEvent(new Event('gameover'));
     }
   }
