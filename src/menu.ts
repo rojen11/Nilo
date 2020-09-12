@@ -1,3 +1,4 @@
+import { chapters } from './chapters';
 import Game from './game';
 import { maps } from './map';
 import Tiles from './tiles';
@@ -26,6 +27,10 @@ export default class Menu {
 
   private fullscreen = document.getElementById('fullscreen');
 
+  private endScreen = document.getElementById('endscreen');
+
+  private urlbar = document.getElementById('urlbar');
+
   private displayStatus = 'home';
 
   private chapter = 1;
@@ -38,7 +43,6 @@ export default class Menu {
           this.toggleFullScreen();
           window.screen.orientation.lock('landscape');
         }
-        this.hide();
         this.showChapters();
       });
     } else {
@@ -48,12 +52,11 @@ export default class Menu {
     // backward button
     if (this.backward !== null) {
       this.backward.addEventListener('click', () => {
+        this.backward?.blur();
         if (typeof this.game.engine.map.levelIndex === 'undefined') {
           if (this.displayStatus === 'chapters') {
-            this.hideChapters();
             this.show();
           } else if (this.displayStatus === 'levels') {
-            this.hidelevels();
             this.showChapters();
           }
         } else {
@@ -71,6 +74,7 @@ export default class Menu {
     // Forward button
     if (this.forward !== null) {
       this.forward.addEventListener('click', () => {
+        this.forward?.blur();
         const levelIndex = this.game.engine.map.levelIndex;
         if (typeof levelIndex !== 'undefined') {
           if (
@@ -88,21 +92,24 @@ export default class Menu {
     // menu button
     if (this.menubtn !== null) {
       this.menubtn.addEventListener('click', () => {
+        this.game.engine.controls.hideControls();
         this.game.stop();
-        this.hideChapters();
-        this.hidelevels();
         this.show();
       });
     }
 
     // reload button
     if (this.reloadbtn !== null) {
-      this.reloadbtn.addEventListener('click', this.refresh);
+      this.reloadbtn.addEventListener('click', () => {
+        this.reloadbtn?.blur();
+        this.refresh();
+      });
     }
 
     // fullscreen button
     if (this.fullscreen !== null) {
       this.fullscreen.addEventListener('click', () => {
+        this.fullscreen?.blur();
         this.toggleFullScreen();
       });
     }
@@ -113,6 +120,10 @@ export default class Menu {
   }
 
   show(): void {
+    this.hideall();
+    if (this.urlbar !== null) {
+      this.urlbar.innerText = 'https://js13kgames.com/home.html';
+    }
     if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
     this.game.engine.context.clearRect(
       0,
@@ -135,7 +146,6 @@ export default class Menu {
       for (let i = 0; i < btns.length; i++) {
         btns[i].addEventListener('click', e => {
           this.chapter = Number((<HTMLButtonElement>e.target).value);
-          this.hideChapters();
           this.showlevels();
         });
       }
@@ -143,6 +153,7 @@ export default class Menu {
   }
 
   showChapters(): void {
+    this.hideall();
     if (this.chaptersDiv !== null)
       this.chaptersDiv.style.visibility = 'visible';
     this.displayStatus = 'chapters';
@@ -157,9 +168,9 @@ export default class Menu {
       const btns = this.levelDiv.children;
       for (let i = 0; i < btns.length; i++) {
         btns[i].addEventListener('click', e => {
+          this.hideall();
           this.level = Number((<HTMLButtonElement>e.target).value);
           this.game.engine.map.loadLevel(`${this.chapter}${this.level}`);
-          this.hidelevels();
           this.game.run();
         });
       }
@@ -167,6 +178,7 @@ export default class Menu {
   }
 
   showlevels(): void {
+    this.hideall();
     if (this.levelDiv != null) this.levelDiv.style.visibility = 'visible';
     this.displayStatus = 'levels';
   }
@@ -184,14 +196,52 @@ export default class Menu {
         this.game.run();
       });
 
-      this.events.addEventListener('fileFound', () => {
-        const levelIndex = this.game.engine.map.levelIndex;
+      this.events.addEventListener('fileFound', async () => {
         this.game.stop();
-        this.game.begin();
-        this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+        const levelIndex = this.game.engine.map.levelIndex;
+        this.game.engine.controls.hideControls();
         this.game.setLocalStorage('levelIndex', (levelIndex + 1).toString());
-        this.game.run();
+
+        if ((levelIndex + 1) % 5 === 0) {
+          await new Promise(r => setTimeout(r, 200));
+
+          if (this.endScreen !== null) {
+            if (this.urlbar !== null) {
+              this.urlbar.innerText = 'https://js13kgames.com/index.html';
+            }
+            this.game.engine.context.clearRect(
+              0,
+              0,
+              this.game.engine.context.canvas.width,
+              this.game.engine.context.canvas.height,
+            ),
+              (this.endScreen.style.visibility = 'visible');
+
+            this.game.engine.context.canvas.style.backgroundColor = chapters[
+              Math.floor(Number(maps[levelIndex]) / 10).toString()
+            ].colors.background.toString();
+
+            Array.from(
+              this.endScreen.childNodes[0].childNodes[0].childNodes,
+            ).forEach((c: HTMLSpanElement, i) => {
+              c.style.backgroundColor =
+                chapters[
+                  Math.floor(Number(maps[levelIndex]) / 10).toString()
+                ].colors.endscreencolors[i];
+            });
+          }
+        } else {
+          this.game.begin();
+          this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+          this.game.run();
+        }
       });
+    }
+  }
+
+  hideEndScreen(): void {
+    if (this.endScreen !== null) {
+      this.endScreen.style.visibility = 'hidden';
     }
   }
 
@@ -256,11 +306,20 @@ export default class Menu {
 
       Tiles.tiles[1].setSolid(false);
       Tiles.tiles[2].setSolid(false);
+      Tiles.tiles[3].setSolid(false);
       setTimeout(function () {
         Tiles.reload = false;
         Tiles.tiles[1].setSolid(true);
         Tiles.tiles[2].setSolid(true);
+        Tiles.tiles[3].setSolid(true);
       }, 200);
     }
   };
+
+  hideall(): void {
+    this.hideEndScreen();
+    this.hide();
+    this.hideChapters();
+    this.hidelevels();
+  }
 }

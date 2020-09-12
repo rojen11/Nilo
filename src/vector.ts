@@ -33,6 +33,12 @@ export default class Vector2 {
     return this;
   }
 
+  zero(): Vector2 {
+    this.x = 0;
+    this.y = 0;
+    return this;
+  }
+
   normalized(): Vector2 {
     return this.divide(this.length());
   }

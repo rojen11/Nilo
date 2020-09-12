@@ -48,7 +48,7 @@ export class Platform extends Tiles {
     ch: string,
   ): void {
     ctx.save();
-    ctx.fillStyle = chapters[ch].colors.platform;
+    ctx.fillStyle = chapters[ch].colors.platform.toString();
     ctx.fillRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
     ctx.restore();
   }
@@ -72,7 +72,7 @@ export class Spike extends Tiles {
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
-    ctx.fillStyle = chapters[ch].colors.spike;
+    ctx.fillStyle = chapters[ch].colors.spike.toString();
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx, ty + h / 2);
     ctx.lineTo(tx + w / 4 / 2, ty);
@@ -108,7 +108,7 @@ export class JumpPad extends Tiles {
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
-    ctx.fillStyle = chapters[ch].colors.jumppad;
+    ctx.fillStyle = chapters[ch].colors.jumppad.toString();
     ctx.fillRect(tx, ty, w, h / 4);
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx + w / 2 - 3, ty + h / 4);
@@ -154,7 +154,7 @@ class End extends Tiles {
     ctx.save();
     const tx = x * Tiles.TilesWidth;
     const ty = y * Tiles.TilesHeight;
-    ctx.fillStyle = chapters[ch].colors.end;
+    ctx.fillStyle = chapters[ch].colors.end.toString();
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
     ctx.translate(tx, ty);
@@ -184,7 +184,7 @@ export class nonPlatform extends Tiles {
     ch: string,
   ): void {
     ctx.save();
-    ctx.fillStyle = chapters[ch].colors.nonplatform;
+    ctx.fillStyle = chapters[ch].colors.nonplatform.toString();
     ctx.fillRect(x * Tiles.TilesWidth, y * Tiles.TilesHeight, w, h);
     ctx.restore();
   }
@@ -208,7 +208,7 @@ export class nonSpike extends Tiles {
     const ty = y * Tiles.TilesHeight;
     ctx.save();
     ctx.beginPath();
-    ctx.fillStyle = chapters[ch].colors.nonspike;
+    ctx.fillStyle = chapters[ch].colors.nonspike.toString();
     ctx.fillRect(tx, ty + h / 2, w, h / 2);
     ctx.moveTo(tx, ty + h / 2);
     ctx.lineTo(tx + w / 4 / 2, ty);

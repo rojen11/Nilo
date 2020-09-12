@@ -1,5 +1,5 @@
 export type ch = {
-  colors: { [key: string]: string };
+  colors: { [key: string]: string | Array<string> };
 };
 
 export interface Chapters {
@@ -17,6 +17,19 @@ export const chapters: Chapters = {
       end: '#34a853',
       nonplatform: '#ea4335',
       nonspike: '#ea4335',
+      endscreencolors: ['#4285f4', '#fbbc05', '#34a853', 'ea4335'],
+    },
+  },
+  '2': {
+    colors: {
+      background: '#292929',
+      player: '#ffa31a',
+      platform: '#ffffff',
+      spike: '#ffffff',
+      jumppad: '#ffffff',
+      end: '#ffa31a',
+      nonplatform: '#808080',
+      nonspike: '#808080',
     },
   },
 };

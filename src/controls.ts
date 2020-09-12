@@ -29,6 +29,14 @@ export default class Controls {
               targetEl = targetEl.parentElement;
             }
           }
+          if (targetEl.tagName === 'path') {
+            if (targetEl.parentElement !== null) {
+              targetEl = targetEl.parentElement;
+              if (targetEl.parentElement !== null) {
+                targetEl = targetEl.parentElement;
+              }
+            }
+          }
           targetEl.style.background = '#121212';
           this.onkeydown({ keyCode: Number(targetEl.id) });
         }
@@ -39,6 +47,14 @@ export default class Controls {
           if (targetEl.tagName === 'svg') {
             if (targetEl.parentElement !== null) {
               targetEl = targetEl.parentElement;
+            }
+          }
+          if (targetEl.tagName === 'path') {
+            if (targetEl.parentElement !== null) {
+              targetEl = targetEl.parentElement;
+              if (targetEl.parentElement !== null) {
+                targetEl = targetEl.parentElement;
+              }
             }
           }
           targetEl.style.background = 'none';
@@ -106,12 +122,16 @@ export default class Controls {
   showControls(): void {
     if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
       const controlEl = document.getElementById('controls');
+      const resetbtn = document.getElementById('resetbtndiv');
+      if (resetbtn !== null) resetbtn.style.visibility = 'visible';
       if (controlEl !== null) controlEl.style.visibility = 'visible';
     }
   }
   hideControls(): void {
     if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
       const controlEl = document.getElementById('controls');
+      const resetbtn = document.getElementById('resetbtndiv');
+      if (resetbtn !== null) resetbtn.style.visibility = 'hidden';
       if (controlEl !== null) controlEl.style.visibility = 'hidden';
     }
   }

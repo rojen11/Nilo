@@ -12,7 +12,7 @@ export default class Player {
 
   public color = 'red';
 
-  public speed = 400;
+  public speed: number;
 
   public velGoal = 0;
 
@@ -22,9 +22,14 @@ export default class Player {
 
   public jumpHeight = 6;
 
-  public jumpVelocity = -1200;
+  public jumpVelocity: number;
 
   public pcolor = '#000';
+
+  public pos: Vector2;
+
+  private engine: Engine;
+  private ctx: CanvasRenderingContext2D;
 
   public state = {
     falling: false,
@@ -34,12 +39,26 @@ export default class Player {
     jumpPad: false,
   };
 
-  constructor(
-    private ctx: CanvasRenderingContext2D,
-    private engine: Engine,
-    public pos: Vector2,
-  ) {
+  private static Instance: Player = new Player();
+
+  public static getInstance(): Player {
+    return this.Instance;
+  }
+
+  init(ctx: CanvasRenderingContext2D, engine: Engine, pos: Vector2): void {
+    this.ctx = ctx;
+    this.engine = engine;
+    this.pos = pos;
     this.state.dead = false;
+    this.state = {
+      falling: false,
+      jumping: false,
+      jumpStartHeight: 0,
+      dead: false,
+      jumpPad: false,
+    };
+    this.speed = 400;
+    this.jumpVelocity = -1200;
   }
 
   // update player
@@ -132,6 +151,7 @@ export default class Player {
         this.checkCollision(
           new Vector2(this.pos.x, this.pos.y + this.velocity.y * dt + h),
           true,
+          h !== 0,
         ) ||
         this.checkCollision(
           new Vector2(
@@ -139,6 +159,7 @@ export default class Player {
             this.pos.y + this.velocity.y * dt + h,
           ),
           true,
+          h !== 0,
         );
       if (
         this.pos.y + this.velocity.y * dt + h >
@@ -210,7 +231,7 @@ export default class Player {
   }
 
   // Axis Aligned Bounding box collision
-  checkCollision(pos: Vector2, verticle = false): boolean {
+  checkCollision(pos: Vector2, verticle = false, bottom = false): boolean {
     if (this.state.dead) return false;
     const tilepos = new Vector2(
       Math.floor(pos.x / Tiles.TilesWidth) * Tiles.TilesWidth,
@@ -240,7 +261,7 @@ export default class Player {
             this.dead();
             return false;
           }
-          if (tile === 3 && verticle) {
+          if (tile === 3 && verticle && bottom) {
             zzfx(
               1,
               -0.1,
@@ -332,6 +353,7 @@ export default class Player {
       this.state.dead = true;
       this.speed = 0;
       this.jumpVelocity = 0;
+      this.velocity.zero();
       const d = document.getElementById('events');
       if (d !== null) d.dispatchEvent(new Event('gameover'));
     }

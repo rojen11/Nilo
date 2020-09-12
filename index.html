@@ -201,6 +201,24 @@
       }
 
       /* Mobile Controls */
+
+      #resetbtndiv {
+        position: absolute;
+        top: 0;
+        right: 0;
+        visibility: hidden;
+      }
+
+      #resetbtndiv > * {
+        background: none;
+        width: 75px;
+        height: 75px;
+        border-radius: 50px;
+        outline: 0;
+        z-index: 2;
+        margin: 10px;
+      }
+
       #controls {
         position: absolute;
         bottom: 0;
@@ -212,9 +230,11 @@
       }
 
       #left {
-        display: flex;
         flex: 1;
-        flex-flow: column;
+        flex-direction: row;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
       }
 
       #left > * {
@@ -222,15 +242,25 @@
       }
 
       #right {
-        flex: 1;
-        flex-direction: row;
         display: flex;
+        flex-flow: column;
         justify-content: flex-end;
-        align-items: center;
       }
 
-      #right > * {
-        margin: 10px;
+      #right > span {
+        display: grid;
+        grid-template-rows: auto auto;
+        grid-template-columns: auto auto;
+        width: max-content;
+      }
+
+      #right > span > :nth-child(1) {
+        grid-row: 1;
+        grid-column: 2;
+      }
+      #right > span > :nth-child(2) {
+        grid-row: 2;
+        grid-column: 1;
       }
 
       .arrow {
@@ -245,6 +275,60 @@
       #events {
         display: none;
       }
+
+      /* End Screen */
+      #endscreen {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+      }
+
+      #endscreen > div {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #endscreen > div > * {
+        margin: 20px;
+      }
+
+      #endscreen > div > div:nth-child(1) {
+        display: flex;
+      }
+
+      #endscreen > div > div:nth-child(1) > * {
+        width: 40px;
+        height: 40px;
+        background-color: grey;
+        margin: 10px;
+      }
+
+      #endscreen > div > div:nth-child(2) {
+        width: 50vw;
+        height: 3rem;
+        background-color: #c1bfbf;
+        border-radius: 50px;
+      }
+
+      #endscreen > div > div:nth-child(3) {
+        display: flex;
+      }
+      #endscreen > div > div:nth-child(3) > * {
+        width: 10rem;
+        height: 3rem;
+        margin: 10px;
+        background-color: #8c8a8a;
+        outline: 0;
+        border: 0;
+      }
+
+      /* End of End Screen */
     </style>
   </head>
   <body>
@@ -348,45 +432,30 @@
         </div>
 
         <!-- Mobile Controls -->
+        <div id="resetbtndiv">
+          <button class="arrow" id="82">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"
+                fill="black"
+              />
+            </svg>
+          </button>
+        </div>
         <div id="controls">
           <div id="left">
-            <button class="arrow" id="38">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  fill="black"
-                  d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-                />
-              </svg>
-            </button>
-
-            <button class="arrow" id="40">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  fill="black"
-                  d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div id="right">
             <button class="arrow" id="37">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                height="24"
+                height="32"
                 viewBox="0 0 24 24"
-                width="24"
+                width="32"
               >
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path
@@ -398,9 +467,9 @@
             <button class="arrow" id="39">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                height="24"
+                height="32"
                 viewBox="0 0 24 24"
-                width="24"
+                width="32"
               >
                 <path d="M0 0h24v24H0z" fill="none" />
                 <path
@@ -410,16 +479,50 @@
               </svg>
             </button>
           </div>
-        </div>
+          <div id="right">
+            <span>
+              <button class="arrow" id="38">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  width="32"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    fill="black"
+                    d="M 12 8 l -6 6 l 1.41 1.41 L 12 10.83 l 4.59 4.58 L 18 14 z M 12 13 l -6 6 l 1.41 1.41 L 12 16 l 4.59 4.58 L 18 19 z"
+                  />
+                </svg>
+              </button>
 
-        <!-- Player dead menu  -->
-        <div id="dead">
-          <h2>Game Over</h2>
-          <div id="dead_buttons">
-            <button id="dead_restart">Restart</button>
-            <button id="dead_menu">Main Menu</button>
+              <button class="arrow" id="32">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  width="32"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    fill="black"
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                  />
+                </svg>
+              </button>
+            </span>
           </div>
         </div>
+
+        <!-- End Screen -->
+        <div id="endscreen">
+          <div>
+            <div><span></span><span></span><span></span><span></span></div>
+            <div></div>
+            <div><button></button><button></button></div>
+          </div>
+        </div>
+
         <canvas width="1024" height="576"></canvas>
       </div>
     </div>

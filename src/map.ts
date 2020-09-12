@@ -37,11 +37,16 @@ export default class Map {
 
   public levelIndex: number;
 
+  private urlbar = document.getElementById('urlbar');
+
   constructor(public engine: Engine) {
     this.ctx = this.engine.context;
   }
 
   loadLevel(level: string): boolean {
+    if (this.urlbar !== null) {
+      this.urlbar.innerText = 'https://js13kgames.com/404.html';
+    }
     this.level = Levels[level];
     this.levelIndex = maps.indexOf(level);
     this.worldHeight = this.level.height;
@@ -49,15 +54,13 @@ export default class Map {
     this.generateImage();
     if (this.engine.player !== undefined) {
       this.engine.player.pos = this.start;
-      this.engine.player.pcolor =
-        chapters[
-          Math.floor(Number(maps[this.levelIndex]) / 10).toString()
-        ].colors.player;
-    }
-    this.engine.context.canvas.style.backgroundColor =
-      chapters[
+      this.engine.player.pcolor = chapters[
         Math.floor(Number(maps[this.levelIndex]) / 10).toString()
-      ].colors.background;
+      ].colors.player.toString();
+    }
+    this.engine.context.canvas.style.backgroundColor = chapters[
+      Math.floor(Number(maps[this.levelIndex]) / 10).toString()
+    ].colors.background.toString();
     return true;
   }
 

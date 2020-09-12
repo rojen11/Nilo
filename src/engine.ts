@@ -24,7 +24,8 @@ export default class Engine {
 
   begin(): void {
     this.map = new Map(this);
-    this.player = new Player(this.context, this, this.map.start);
+    this.player = Player.getInstance();
+    this.player.init(this.context, this, this.map.start);
     this.controls = Controls.getInstance();
     this.controls.init(this.player);
     this.camera = new Camera(
