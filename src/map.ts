@@ -45,7 +45,7 @@ export default class Map {
 
   loadLevel(level: string): boolean {
     if (this.urlbar !== null) {
-      this.urlbar.innerText = 'https://js13kgames.com/404.html';
+      this.urlbar.innerText = 'https://nilo.com/404.html';
     }
     this.level = Levels[level];
     this.levelIndex = maps.indexOf(level);

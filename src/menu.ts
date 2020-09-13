@@ -137,7 +137,7 @@ export default class Menu {
   show(): void {
     this.hideall();
     if (this.urlbar !== null) {
-      this.urlbar.innerText = 'https://js13kgames.com/home.html';
+      this.urlbar.innerText = 'https://nilo.com/home.html';
     }
     if (this.menuDiv !== null) this.menuDiv.style.visibility = 'visible';
     this.game.engine.context.clearRect(
@@ -244,7 +244,7 @@ export default class Menu {
 
           if (this.endScreen !== null) {
             if (this.urlbar !== null) {
-              this.urlbar.innerText = 'https://js13kgames.com/index.html';
+              this.urlbar.innerText = 'https://nilo.com/index.html';
             }
             this.game.engine.context.clearRect(
               0,
@@ -272,7 +272,7 @@ export default class Menu {
           await new Promise(r => setTimeout(r, 200));
           if (this.endScreen2 !== null) {
             if (this.urlbar !== null) {
-              this.urlbar.innerText = 'https://js13kgames.com/index.html';
+              this.urlbar.innerText = 'https://nilo.com/index.html';
             }
             this.game.engine.context.clearRect(
               0,
