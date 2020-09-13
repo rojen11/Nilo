@@ -29,7 +29,11 @@ export default class Menu {
 
   private endScreen = document.getElementById('endscreen');
 
+  private endScreen2 = document.getElementById('endscreen2');
+
   private urlbar = document.getElementById('urlbar');
+
+  private nextchapter = document.getElementById('nextchapter');
 
   private displayStatus = 'home';
 
@@ -106,6 +110,17 @@ export default class Menu {
       });
     }
 
+    // next chapter button
+    if (this.nextchapter !== null) {
+      this.nextchapter.addEventListener('click', () => {
+        const levelIndex = this.game.engine.map.levelIndex;
+        this.hideEndScreen();
+        this.game.begin();
+        this.game.engine.map.loadLevel(maps[levelIndex + 1]);
+        this.game.run();
+      });
+    }
+
     // fullscreen button
     if (this.fullscreen !== null) {
       this.fullscreen.addEventListener('click', () => {
@@ -149,6 +164,9 @@ export default class Menu {
           this.showlevels();
         });
       }
+      if (Number(this.game.getLocalStorage('levelIndex')) < 5) {
+        (<HTMLButtonElement>btns[1]).disabled = true;
+      }
     }
   }
 
@@ -179,7 +197,23 @@ export default class Menu {
 
   showlevels(): void {
     this.hideall();
-    if (this.levelDiv != null) this.levelDiv.style.visibility = 'visible';
+    if (this.levelDiv != null) {
+      this.levelDiv.style.visibility = 'visible';
+      const btns = this.levelDiv.children;
+      for (let i = 0; i < btns.length; i++) {
+        if (this.chapter === 1) {
+          if (Number(this.game.getLocalStorage('levelIndex')) - i < 0) {
+            (<HTMLButtonElement>btns[i]).disabled = true;
+          }
+        }
+        if (this.chapter === 2) {
+          console.log('here');
+          if (Number(this.game.getLocalStorage('levelIndex')) - 5 - i < 0) {
+            (<HTMLButtonElement>btns[i]).disabled = true;
+          }
+        }
+      }
+    }
     this.displayStatus = 'levels';
   }
   hidelevels(): void {
@@ -236,6 +270,22 @@ export default class Menu {
         } else if (levelIndex === 9) {
           // endscreeen 2
           await new Promise(r => setTimeout(r, 200));
+          if (this.endScreen2 !== null) {
+            if (this.urlbar !== null) {
+              this.urlbar.innerText = 'https://js13kgames.com/index.html';
+            }
+            this.game.engine.context.clearRect(
+              0,
+              0,
+              this.game.engine.context.canvas.width,
+              this.game.engine.context.canvas.height,
+            ),
+              (this.endScreen2.style.visibility = 'visible');
+
+            this.game.engine.context.canvas.style.backgroundColor = chapters[
+              Math.floor(Number(maps[levelIndex]) / 10).toString()
+            ].colors.background.toString();
+          }
         } else {
           this.game.begin();
           this.game.engine.map.loadLevel(maps[levelIndex + 1]);
@@ -249,6 +299,13 @@ export default class Menu {
   hideEndScreen(): void {
     if (this.endScreen !== null) {
       this.endScreen.style.visibility = 'hidden';
+    }
+  }
+
+  // End Screen 2
+  hideEndScreen2(): void {
+    if (this.endScreen2 !== null) {
+      this.endScreen2.style.visibility = 'hidden';
     }
   }
 
@@ -328,6 +385,7 @@ export default class Menu {
   // Hide all interface.
   hideall(): void {
     this.hideEndScreen();
+    this.hideEndScreen2();
     this.hide();
     this.hideChapters();
     this.hidelevels();

@@ -38,6 +38,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+      }
+      #info {
+        font-family: sans-serif;
+        font-size: 1.5rem;
+        justify-content: end;
+        text-align: center;
+      }
+
+      #info > div {
+        bottom: 0;
       }
 
       #play {
@@ -110,6 +121,10 @@
         font-size: 1.5rem;
         cursor: pointer;
       }
+      button:disabled {
+        background-color: grey !important;
+      }
+
       /* End of choose level */
 
       /* Player dead menu */
@@ -499,14 +514,22 @@
 
         <!-- Play Button -->
         <div id="menu">
-          <button id="play">PLAY</button>
+          <div>
+            <button id="play">PLAY</button>
+          </div>
+          <div id="info">
+            <div>
+              <p>Use ARROW KEYS or WASD or ZQSD to move</p>
+              <p>Use SPACE BAR to refresh the page</p>
+              <p>Use R to reset the level</p>
+            </div>
+          </div>
         </div>
 
         <!-- Chapters Menu -->
         <div id="chapters">
           <button value="1">1</button>
           <button value="2">2</button>
-          <button value="3">3</button>
         </div>
 
         <!-- Level menu -->
@@ -610,7 +633,9 @@
             <div><button></button><button></button></div>
           </div>
           <div>
-            <button id="nextchapter">Click here to load next chapter!</button>
+            <button id="nextchapter">
+              Click here to load the next chapter!
+            </button>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ export interface Levels {
   [key: string]: Level;
 }
 export const Levels: Levels = {
-  "15": {
+  '11': {
     width: 32,
     height: 18,
     map: [
@@ -625,7 +625,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "12": {
+  '12': {
     width: 64,
     height: 18,
     map: [
@@ -1819,7 +1819,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "13": {
+  '13': {
     width: 57,
     height: 18,
     map: [
@@ -2887,7 +2887,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "14": {
+  '14': {
     width: 128,
     height: 18,
     map: [
@@ -5233,7 +5233,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "11": {
+  '15': {
     width: 32,
     height: 48,
     map: [
@@ -6871,7 +6871,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "21": {
+  '21': {
     width: 30,
     height: 50,
     map: [
@@ -7007,7 +7007,7 @@ export const Levels: Levels = {
         6,
         0,
         0,
-        0,
+        4,
         0,
         0,
         0,
@@ -8477,7 +8477,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "22": {
+  '22': {
     width: 32,
     height: 52,
     map: [
@@ -10251,7 +10251,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "23": {
+  '23': {
     width: 64,
     height: 33,
     map: [
@@ -12435,7 +12435,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "24": {
+  '24': {
     width: 96,
     height: 18,
     map: [
@@ -14205,7 +14205,7 @@ export const Levels: Levels = {
       ],
     ],
   },
-  "25": {
+  '25': {
     width: 96,
     height: 18,
     map: [

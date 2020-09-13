@@ -81,7 +81,11 @@ export default class Game {
   initLocalStorage(): void {
     if (this.storageAvailable()) {
       if (localStorage.getItem('game-storage') === null) {
-        localStorage.setItem('game-storage', JSON.stringify({ levelIndex: 0 }));
+        localStorage.setItem('game-storage', '{"levelIndex":0}');
+      } else {
+        if (this.getLocalStorage('levelIndex') === null) {
+          localStorage.setItem('game-storage', '{"levelIndex":0}');
+        }
       }
     }
   }
