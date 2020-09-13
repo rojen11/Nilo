@@ -52,7 +52,7 @@ export default class Game {
     const progress = timestamp - this.lastRender;
     let dt = progress / 1000;
 
-    if (dt > 0.15) dt = 0.15;
+    if (dt > 0.02) dt = 0.02;
 
     if (this.fpsTime > 0.25) {
       this.fpsDiv.innerHTML = Math.floor(1 / dt).toString();

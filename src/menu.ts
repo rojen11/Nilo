@@ -186,8 +186,10 @@ export default class Menu {
     if (this.levelDiv != null) this.levelDiv.style.visibility = 'hidden';
   }
 
+  // Events
   initEvents(): void {
     if (this.events !== null) {
+      // Player Dead
       this.events.addEventListener('gameover', () => {
         const levelIndex = this.game.engine.map.levelIndex;
         this.game.stop();
@@ -196,13 +198,14 @@ export default class Menu {
         this.game.run();
       });
 
+      // Level End
       this.events.addEventListener('fileFound', async () => {
         this.game.stop();
         const levelIndex = this.game.engine.map.levelIndex;
         this.game.engine.controls.hideControls();
         this.game.setLocalStorage('levelIndex', (levelIndex + 1).toString());
 
-        if ((levelIndex + 1) % 5 === 0) {
+        if (levelIndex === 4) {
           await new Promise(r => setTimeout(r, 200));
 
           if (this.endScreen !== null) {
@@ -222,7 +225,7 @@ export default class Menu {
             ].colors.background.toString();
 
             Array.from(
-              this.endScreen.childNodes[0].childNodes[0].childNodes,
+              this.endScreen.childNodes[1].childNodes[0].childNodes,
             ).forEach((c: HTMLSpanElement, i) => {
               c.style.backgroundColor =
                 chapters[
@@ -230,6 +233,9 @@ export default class Menu {
                 ].colors.endscreencolors[i];
             });
           }
+        } else if (levelIndex === 9) {
+          // endscreeen 2
+          await new Promise(r => setTimeout(r, 200));
         } else {
           this.game.begin();
           this.game.engine.map.loadLevel(maps[levelIndex + 1]);
@@ -239,12 +245,14 @@ export default class Menu {
     }
   }
 
+  // End Screen
   hideEndScreen(): void {
     if (this.endScreen !== null) {
       this.endScreen.style.visibility = 'hidden';
     }
   }
 
+  // Full Screen
   toggleFullScreen(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const doc: any = window.document;
@@ -274,6 +282,7 @@ export default class Menu {
     window.screen.orientation.lock('landscape');
   }
 
+  // refresh button
   refresh = (): void => {
     if (!Tiles.reload) {
       const player = this.game.engine.player;
@@ -316,6 +325,7 @@ export default class Menu {
     }
   };
 
+  // Hide all interface.
   hideall(): void {
     this.hideEndScreen();
     this.hide();

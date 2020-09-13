@@ -285,6 +285,7 @@
         justify-content: center;
         align-items: center;
         visibility: hidden;
+        flex-direction: column;
       }
 
       #endscreen > div {
@@ -296,6 +297,11 @@
 
       #endscreen > div > * {
         margin: 20px;
+      }
+
+      #endscreen > div:nth-child(1) {
+        font-family: sans-serif;
+        font-size: 2rem;
       }
 
       #endscreen > div > div:nth-child(1) {
@@ -328,7 +334,88 @@
         border: 0;
       }
 
+      #nextchapter {
+        background-color: rgb(53, 51, 51);
+        font-family: sans-serif;
+        font-size: 1.8rem;
+        padding: 10px;
+        color: #fff;
+        cursor: pointer;
+      }
+
       /* End of End Screen */
+      #endscreen2 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        visibility: hidden;
+      }
+
+      #endscreen2 > div:nth-child(1) > div {
+        color: White;
+        font-family: sans-serif;
+        font-size: 2rem;
+        padding: 30px;
+        font-weight: 600;
+      }
+
+      #endscreen2 > div:nth-child(1) > div > span:nth-child(2) {
+        background-color: #ffa31a;
+        color: black;
+        padding: 10px;
+      }
+
+      #endscreen2 > div:nth-child(2) {
+        display: flex;
+        flex: 1 0 auto;
+        flex-direction: row;
+      }
+
+      #endscreen2 > div:nth-child(2) > div:nth-child(1) {
+        width: 70vw;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #endscreen2 > div:nth-child(2) > div:nth-child(1) > * {
+        margin: 10px;
+      }
+
+      #endscreen2 > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) {
+        height: 40vh;
+        width: 100%;
+        background-color: grey;
+      }
+      #endscreen2 > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) {
+        height: 20px;
+        width: 100%;
+        background-color: grey;
+      }
+      #endscreen2 > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) {
+        height: 20px;
+        width: 30%;
+        background-color: grey;
+      }
+
+      #endscreen2 > div:nth-child(2) > div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+        padding: 30px;
+      }
+
+      #endscreen2 > div:nth-child(2) > div:nth-child(2) > * {
+        margin: 10px;
+        width: 100%;
+        height: 20vh;
+        background-color: grey;
+      }
+
+      /* End Screen 2 */
     </style>
   </head>
   <body>
@@ -516,13 +603,35 @@
 
         <!-- End Screen -->
         <div id="endscreen">
+          <div>Page found!</div>
           <div>
             <div><span></span><span></span><span></span><span></span></div>
             <div></div>
             <div><button></button><button></button></div>
           </div>
+          <div>
+            <button id="nextchapter">Click here to load next chapter!</button>
+          </div>
         </div>
 
+        <!-- End Screen 2 -->
+        <div id="endscreen2">
+          <div>
+            <div><span>Page</span> <span>found!</span></div>
+          </div>
+          <div>
+            <div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
         <canvas width="1024" height="576"></canvas>
       </div>
     </div>

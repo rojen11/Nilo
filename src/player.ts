@@ -59,6 +59,8 @@ export default class Player {
     };
     this.speed = 400;
     this.jumpVelocity = -1200;
+    const d = document.getElementById('events');
+    d?.dispatchEvent(new Event('playerinit'));
   }
 
   // update player
@@ -69,22 +71,28 @@ export default class Player {
     this.velGoal = 0;
 
     let mdt = 1000;
-    let tg = 0;
 
     // Controls
+
+    // left
     if (this.engine.controls.control.left) {
       if (this.velocity.x > 0) mdt = 2000;
       this.velGoal = -this.speed;
     }
+
+    // right
     if (this.engine.controls.control.right) {
       if (this.velocity.x < 0) mdt = 2000;
       this.velGoal = this.speed;
     }
+
+    // jump
     if (this.engine.controls.control.up && !this.state.jumping) {
       this.velocity.y = this.jumpVelocity;
       this.state.jumping = true;
       this.state.jumpStartHeight = this.pos.y;
       this.state.falling = true;
+
       // eslint-disable-next-line no-sparse-arrays
       zzfx(
         0.4,
@@ -108,9 +116,6 @@ export default class Player {
         0.03,
         0,
       ); // jump
-    } else if (this.engine.controls.control.down) {
-      tg = 2000;
-      this.state.falling = true;
     }
 
     this.velocity.x = lerp(this.velGoal, this.velocity.x, dt * mdt);
@@ -141,7 +146,10 @@ export default class Player {
 
     if (colx) this.velocity.x = 0;
 
-    this.velocity.y += (this.gravity.y + tg) * dt;
+    // adding gravity
+    if (this.state.falling) {
+      this.velocity.y += this.gravity.y * dt;
+    }
 
     // collision in y axis
     let coly = false;
@@ -176,7 +184,7 @@ export default class Player {
             this.checkCollision(
               new Vector2(
                 this.pos.x,
-                this.pos.y + (this.gravity.y + tg) * dt + this.height,
+                this.pos.y + this.gravity.y * dt + this.height,
               ),
               true,
             ) ||
@@ -203,12 +211,14 @@ export default class Player {
       }
     }
 
+    // Jumppad
     if (this.state.jumpPad) {
       this.velocity.y = this.jumpVelocity * 1.5;
       this.state.jumpPad = false;
       this.state.falling = true;
     }
 
+    // reset velocity on ground
     if (!this.state.falling) {
       this.velocity.y = 0;
     }
