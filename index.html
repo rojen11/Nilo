@@ -1,5 +1,10 @@
 <html>
   <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
       * {
         box-sizing: border-box;
@@ -13,7 +18,7 @@
       canvas {
         width: 100%;
         height: 100%;
-        background: #fcea48;
+        background: #f1f9cb;
       }
 
       #main {
@@ -40,15 +45,32 @@
         align-items: center;
         flex-direction: column;
       }
+
+      #title {
+        font-family: sans-serif;
+        font-size: 5rem;
+        justify-content: center;
+        text-align: center;
+        flex: 1 1 auto;
+        display: flex;
+      }
+
+      #title > p {
+        margin: auto;
+        color: #ea4335;
+        font-weight: 600;
+      }
+
       #info {
         font-family: sans-serif;
         font-size: 1.5rem;
-        justify-content: end;
         text-align: center;
-      }
-
-      #info > div {
-        bottom: 0;
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
       }
 
       #play {
@@ -64,6 +86,14 @@
         color: #000;
         box-shadow: 0 0 5px #ffffff;
         text-shadow: 0 0 5px #ffffff;
+      }
+
+      #playdiv {
+        flex: 1 1 auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       #chapters {
@@ -514,15 +544,16 @@
 
         <!-- Play Button -->
         <div id="menu">
-          <div>
+          <div id="title">
+            <p>NILO</p>
+          </div>
+          <div id="playdiv">
             <button id="play">PLAY</button>
           </div>
           <div id="info">
-            <div>
-              <p>Use ARROW KEYS or WASD or ZQSD to move</p>
-              <p>Use SPACE BAR to refresh the page</p>
-              <p>Use R to reset the level</p>
-            </div>
+            <p>Use ARROW KEYS or WASD or ZQSD to move</p>
+            <p>Use SPACE BAR to refresh the page</p>
+            <p>Use R to reset the level</p>
           </div>
         </div>
 

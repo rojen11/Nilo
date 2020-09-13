@@ -146,7 +146,7 @@ export default class Menu {
       this.game.engine.context.canvas.width,
       this.game.engine.context.canvas.height,
     );
-    this.game.engine.context.canvas.style.backgroundColor = '#fcea48';
+    this.game.engine.context.canvas.style.backgroundColor = '#f1f9cb';
     this.displayStatus = 'menu';
   }
 
