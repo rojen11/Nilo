@@ -24,6 +24,10 @@ npm run start # for webpack dev server
 npm run build # to output minified js and html
 ```
 
+## Image
+![image](https://user-images.githubusercontent.com/44132059/131008027-ffe8d35d-17ed-4f78-943f-30d6b37613c2.png)
+
+
 # Credits
 
 - [ZzFx by Frank Force](https://github.com/KilledByAPixel/ZzFX)
